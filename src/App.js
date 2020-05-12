@@ -1,10 +1,11 @@
 import React from 'react';
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
+import CreateAccount from "./pages/CreateAccount";
 
 function App() {
   return (
     <div>
-      <Navbar />
+      <CreateAccount />
     </div>
   );
 }
