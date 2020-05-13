@@ -1,4 +1,5 @@
 import React from 'react';
+import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
@@ -8,7 +9,7 @@ function App() {
       <div>
         <Navbar />
         <Switch>
-          {/* <Route exact path={["/", "/books"]} component={Books} /> */}
+          <Route exact path={"/"} component={Dashboard} />
           {/* <Route exact path="/books/:id" component={Detail} /> */}
           {/* <Route exact path="*" component={NoMatch} /> */}
         </Switch>
