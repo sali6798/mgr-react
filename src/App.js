@@ -2,6 +2,7 @@ import React from 'react';
 import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import CreateAccount from "./pages/CreateAccount"
 
 function App() {
   return (
