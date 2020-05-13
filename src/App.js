@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import CreateAccount from "./pages/CreateAccount"
 
 function App() {
   return (
