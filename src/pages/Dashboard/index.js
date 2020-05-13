@@ -26,7 +26,7 @@
 
 // export default Dashboard;
 
-import React from 'react'
+import React, { useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -38,21 +38,40 @@ import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import "@fullcalendar/list/main.css";
 
+// import { styles, Modal, Backdrop, Fade } from "@material-ui/core"
+
 // import './main.scss'
+// const useStyles = styles.makeStyles((theme) => ({
+//     modal: {
+//         display: 'flex',
+//         alignItems: 'center',
+//         justifyContent: 'center',
+//     },
+//     paper: {
+//         backgroundColor: theme.palette.background.paper,
+//         border: '2px solid #000',
+//         boxShadow: theme.shadows[5],
+//         padding: theme.spacing(2, 4, 3),
+//     },
+// }));
 
-export default class Dashboard extends React.Component {
+function Dashboard() {
 
-    calendarComponentRef = React.createRef()
-    state = {
-        calendarWeekends: true,
-        calendarEvents: [ // initial event data
-            { title: 'Event Now', start: new Date() }
-        ]
-    }
+    const calendarComponentRef = React.createRef()
+    const [events, createEvents] = useState([
+        { title: 'Event Now', start: new Date() }
+    ])
 
-    handleDateClick = (arg) => {
+    // state = {
+    //     // calendarWeekends: true,
+    //     calendarEvents: [ // initial event data
+    //         { title: 'Event Now', start: new Date() }
+    //     ]
+    // }
+
+    const handleDateClick = (arg) => {
         // alert(arg.dateStr)
-        let calendarApi = this.calendarComponentRef.current.getApi()
+        let calendarApi = calendarComponentRef.current.getApi()
         calendarApi.changeView('timeGridDay', arg.dateStr);
         // this.calendarComponentRef
         //   const result = confirm('Would you like to add an event to ' + arg.dateStr + ' ?');
@@ -67,52 +86,58 @@ export default class Dashboard extends React.Component {
         // }
     }
 
-    render() {
-        return (
-            <div className='demo-app'>
-                <div className='demo-app-top'>
-                    {/* <button onClick={ this.toggleWeekends }>toggle weekends</button>&nbsp;
-          <button onClick={ this.gotoPast }>go to a date in the past</button>&nbsp; */}
-          (also, click a date/time to add an event)
-        </div>
-                <div className='demo-app-calendar'>
-                    <FullCalendar
-                        defaultView="dayGridMonth"
-                        header={{
-                            left: 'prev,next today addEventButton',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                        }}
-                        customButtons={{
-                            addEventButton: {
-                                text: 'Add event',
-                                click: function () {
-                                    var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                                    var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+    const addCalendarEvent = () => {
+        var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+        var date = new Date(dateStr + 'T00:00:00'); // will be in local time
 
-                                    // if (!isNaN(date.valueOf())) { // valid?
-                                    //     calendar.addEvent({
-                                    //         title: 'dynamic event',
-                                    //         start: date,
-                                    //         allDay: true
-                                    //     });
-                                    //     alert('Great. Now, update your database...');
-                                    // } else {
-                                    //     alert('Invalid date.');
-                                    // }
-                                }
-                            }
-                        }}
-                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-                        ref={this.calendarComponentRef}
-                        // weekends={ this.state.calendarWeekends }
-                        events={this.state.calendarEvents}
-                        dateClick={this.handleDateClick}
-                    />
-                </div>
-            </div>
-        )
+        // if (!isNaN(date.valueOf())) { // valid?
+        //     calendar.addEvent({
+        //         title: 'dynamic event',
+        //         start: date,
+        //         allDay: true
+        //     });
+        //     alert('Great. Now, update your database...');
+        // } else {
+        //     alert('Invalid date.');
+        // }
     }
+
+
+    return (
+        <div className='demo-app'>
+            {/* <div className='demo-app-top'> */}
+                {/* <button onClick={ this.toggleWeekends }>toggle weekends</button>&nbsp;
+            <button onClick={ this.gotoPast }>go to a date in the past</button>&nbsp; */}
+            {/* (also, click a date/time to add an event)
+            </div> */}
+            <div className='demo-app-calendar'>
+                <FullCalendar
+                    defaultView="dayGridMonth"
+                    header={{
+                        left: 'prev,next today addEventButton',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    }}
+                    customButtons={{
+                        addEventButton: {
+                            text: 'Add event',
+                            click: addCalendarEvent
+                            
+                            // function () {
+                                
+                            // }
+                        }
+                    }}
+                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+                    ref={calendarComponentRef}
+                    // weekends={ this.state.calendarWeekends }
+                    events={events}
+                    dateClick={handleDateClick}
+                />
+            </div>
+        </div>
+    )
+
 
     //   toggleWeekends = () => {
     //     this.setState({ // update a property
@@ -128,3 +153,5 @@ export default class Dashboard extends React.Component {
 
 
 }
+
+export default Dashboard;
