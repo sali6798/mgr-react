@@ -38,7 +38,7 @@ import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import "@fullcalendar/list/main.css";
 
-// import { styles, Modal, Backdrop, Fade } from "@material-ui/core"
+import { styles, Modal, Backdrop, Fade } from "@material-ui/core"
 
 // import './main.scss'
 // const useStyles = styles.makeStyles((theme) => ({
@@ -122,10 +122,6 @@ function Dashboard() {
                         addEventButton: {
                             text: 'Add event',
                             click: addCalendarEvent
-                            
-                            // function () {
-                                
-                            // }
                         }
                     }}
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
