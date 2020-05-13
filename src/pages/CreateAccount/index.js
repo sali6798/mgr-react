@@ -89,7 +89,6 @@ function CreateAccount() {
                         value={values.password}
                         onChange={handleChange('password')}
                         minLength= "8"
-                        helperText="Must be more than 8 characters"
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
