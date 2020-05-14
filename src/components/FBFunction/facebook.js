@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import FacebookLogin from "react-facebook-login";
-import API from "./API/fbAPI"
+import API from "./API/FBAPI"
 
 function Facebook() {                               // user information
     const [userToken, setUserToken] = useState({
