@@ -77,7 +77,6 @@ function Dashboard() {
 
     const handleSubmit = event => {
         event.preventDefault();
-
         setEvents(events.concat({
             title: title,
             description: description,
