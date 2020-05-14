@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { Container, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput } from '@material-ui/core'
+import { Container, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput, FormHelperText } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
@@ -50,6 +50,19 @@ function CreateAccount() {
         event.preventDefault();
     };
 
+    function validate(event, field) {
+        event.preventDefault()
+        switch(field) {
+            case "password":
+                if (values.password.length < 8) {
+                    return "Password must be more than 8 characters"
+                } else {
+                    return ""
+                }
+        }
+
+    
+    } 
     return (
         <Container maxWidth="sm">
         <form className={classes.root} noValidate autoComplete="off">
@@ -88,7 +101,10 @@ function CreateAccount() {
                         type={values.showPassword ? 'text' : 'password'}
                         value={values.password}
                         onChange={handleChange('password')}
-                        minLength= "8"
+                        error={values.password.length < 8}
+                        aria-describedby= "password-error-length"
+                        onBlur= {(event) => console.log(event.target.value)}
+    
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -103,6 +119,7 @@ function CreateAccount() {
                         }
                         labelWidth={70}
                     />
+                     <FormHelperText id="password-error-length">Password must be more than 8 characters</FormHelperText>
                 </FormControl>
                 <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
