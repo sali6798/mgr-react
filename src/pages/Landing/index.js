@@ -31,10 +31,10 @@ function Landing() {
                 <hr />
                 <p>For all those managers and record label reps who want to wrangle their artists, click below to create an account or login.</p>
                 <br />
-                <Button  className={classes.buttonMargin} variant="contained" color="primary">
+                <Button  className={classes.buttonMargin} variant="contained" color="primary" href="/createaccount">
                         Create Account
                 </Button>
-                    <Button className={classes.buttonMargin} variant="contained" color="primary">
+                    <Button className={classes.buttonMargin} variant="contained" color="primary" href="/login">
                         Login
                 </Button>
             </Paper>
