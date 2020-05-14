@@ -54,11 +54,11 @@ function CreateAccount() {
         event.preventDefault()
         switch(field) {
             case "password":
-                if (values.password.length < 8) {
-                    return "Password must be more than 8 characters"
-                } else {
-                    return ""
-                }
+                        if (values.password.length < 8) {
+            return "Password must be more than 8 characters"
+        } else {
+            return ""
+        }
         }
 
     
