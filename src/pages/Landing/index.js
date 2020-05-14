@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         color: theme.palette.text.primary,
     },
+    buttonMargin: {
+        margin: theme.spacing(1),
+      },
 }));
 
 function Landing() {
@@ -27,10 +30,10 @@ function Landing() {
                 <hr />
                 <p>For all those managers and record label reps who want to wrangle their artists, click below to create an account or login.</p>
                 <br />
-                <Button variant="contained" color="primary">
+                <Button  className={classes.buttonMargin} variant="contained" color="primary">
                         Create Account
                 </Button>
-                    <Button variant="contained" color="primary">
+                    <Button className={classes.buttonMargin} variant="contained" color="primary">
                         Login
                 </Button>
             </Paper>

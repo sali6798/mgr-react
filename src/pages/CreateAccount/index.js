@@ -148,10 +148,10 @@ function CreateAccount() {
             </div>
             <br></br>
             <div>
-                <Button variant="contained" color="primary">
+                <Button className={classes.margin} variant="contained" color="primary">
                     Go Back
                 </Button>
-                <Button variant="contained" color="primary">
+                <Button className={classes.margin} variant="contained" color="primary">
                     Submit
                 </Button>
             </div>
