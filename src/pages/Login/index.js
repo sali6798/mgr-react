@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css"
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { Container, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput } from '@material-ui/core'
+import { Grid, Paper, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
@@ -20,6 +20,15 @@ const useStyles = makeStyles((theme) => ({
     },
     textField: {
         width: '25ch',
+    },
+    grid: {
+        flexGrow: 1,
+        marginTop: 20,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.primary,
     },
 }));
 
@@ -47,55 +56,61 @@ function Login() {
     };
 
     return (
-        <Container maxWidth="sm">
-            <form className={classes.root} noValidate autoComplete="off">
-                <h3>Login</h3>
-                <div>
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="Email"
-                        value={values.email}
-                        onChange={handleChange('email')}
-                        variant="outlined" />
-                </div>
-                <div>
-                    <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-password"
-                            label="Password"
-                            type={values.showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            onChange={handleChange('password')}
-                            minLength="8"
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            labelWidth={70}
-                        />
-                    </FormControl>
-                </div>
-                <br />
-                <div>
-                    <Button variant="contained" color="primary">
-                        Go Back
+        <Grid className={classes.grid} container spacing={1}>
+            <Grid item xs={3} />
+            <Grid item xs={6}>
+                <Paper className={classes.paper} elevation={3} maxWidth="sm">
+                    <form className={classes.root} noValidate autoComplete="off">
+                        <h3>Login</h3>
+                        <div>
+                            <TextField
+                                required
+                                id="outlined-required"
+                                label="Email"
+                                value={values.email}
+                                onChange={handleChange('email')}
+                                variant="outlined" />
+                        </div>
+                        <div>
+                            <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
+                                    label="Password"
+                                    type={values.showPassword ? 'text' : 'password'}
+                                    value={values.password}
+                                    onChange={handleChange('password')}
+                                    minLength="8"
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                            >
+                                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    labelWidth={70}
+                                />
+                            </FormControl>
+                        </div>
+                        <br />
+                        <div>
+                            <Button className={classes.margin} variant="contained" color="primary">
+                                Go Back
                 </Button>
-                    <Button variant="contained" color="primary">
-                        Submit
+                            <Button className={classes.margin} variant="contained" color="primary">
+                                Submit
                 </Button>
-                </div>
-            </form>
-        </Container>
+                        </div>
+                    </form>
+                </Paper>
+            </Grid>
+            <Grid item xs={3} />
+        </Grid>
 
     )
 }
