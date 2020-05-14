@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import LinkTab from '@material-ui/core/Tab';
+import Tab from '@material-ui/core/Tabs';
 
 const useStyles = makeStyles({
     root: {
@@ -15,6 +16,18 @@ const useStyles = makeStyles({
     }
 });
 
+// function LinkTab(props) {
+//     return (
+//       <Tab
+//         component="a"
+//         onClick={(event) => {
+//           event.preventDefault();
+//         }}
+//         {...props}
+//       />
+//     );
+//   }
+
 function Navbar() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
@@ -23,6 +36,10 @@ function Navbar() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+
+      
+      
 
     return (
         <Paper className={classes.root}>
@@ -35,6 +52,8 @@ function Navbar() {
                 centered
             >
                 <LinkTab label="Home" href="/" />
+                <LinkTab label="Dashboard" href="/dashboard" />
+                <LinkTab label="Groups" href="/groups" />
                 <LinkTab label="Create Account" href="/createaccount" />
                 <LinkTab label="Login" href="/login" />
             </Tabs>

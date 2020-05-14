@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import CreateAccount from "./pages/CreateAccount"
 import Login from "./pages/Login"
 import Landing from "./pages/Landing"
+import GroupView from "./pages/GroupView"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route exact path={["/"]} component={Landing} /> 
           <Route exact path="/createaccount" component={CreateAccount} /> 
           <Route exact path="/login" component={Login} /> 
+          <Route exact path="/groups" component={GroupView} /> 
           
         </Switch>
       </div>
