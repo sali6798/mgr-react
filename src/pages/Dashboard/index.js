@@ -1,118 +1,111 @@
-// import React, { useState, useEffect } from "react";
-// import Calendar from 'react-calendar';
-// import 'react-calendar/dist/Calendar.css';
-
-// function Dashboard() {
-//     const [date, setDate] = useState(new Date())
-
-//     const handleDateChange = date => {
-//         setDate(date);
-//     }
-
-//     const onDrillDown = ({ activeStartDate, view }) => alert('Drilled down to: ', activeStartDate, view)
-//     const onClickDay = (value, event) => alert('Clicked day: ', value)
-
-//     return (
-//         <div>
-//             <Calendar
-//                 onChange={handleDateChange}
-//                 value={date}
-//                 onDrillDown={onDrillDown}
-//                 onClickDay={onClickDay}
-//             />
-//         </div>
-//     );
-// }
-
-// export default Dashboard;
-
 import React, { useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
 import listPlugin from '@fullcalendar/list';
+import moment from "moment"
 
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import "@fullcalendar/list/main.css";
 
-import { styles, Modal, Backdrop, Fade } from "@material-ui/core"
+import { Modal, Backdrop, Fade } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
 
-// import './main.scss'
-// const useStyles = styles.makeStyles((theme) => ({
-//     modal: {
-//         display: 'flex',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//     },
-//     paper: {
-//         backgroundColor: theme.palette.background.paper,
-//         border: '2px solid #000',
-//         boxShadow: theme.shadows[5],
-//         padding: theme.spacing(2, 4, 3),
-//     },
-// }));
+const useStyles = makeStyles((theme) => ({
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    paper: {
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+}));
 
 function Dashboard() {
-
     const calendarComponentRef = React.createRef()
-    const [events, createEvents] = useState([
+    const [events, setEvents] = useState([
         { title: 'Event Now', start: new Date() }
     ])
 
-    // state = {
-    //     // calendarWeekends: true,
-    //     calendarEvents: [ // initial event data
-    //         { title: 'Event Now', start: new Date() }
-    //     ]
-    // }
+    const [dateClicked, setDateClicked] = useState({
+        allDay: false,
+        date: new Date(),
+        dateStr: ""
+    });
+
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        setTitle("");
+        setDescription("");
+    };
 
     const handleDateClick = (arg) => {
-        // alert(arg.dateStr)
-        let calendarApi = calendarComponentRef.current.getApi()
-        calendarApi.changeView('timeGridDay', arg.dateStr);
-        // this.calendarComponentRef
-        //   const result = confirm('Would you like to add an event to ' + arg.dateStr + ' ?');
-        // if (confirm('Would you like to add an event to ' + arg.dateStr + ' ?')) {
-        //   this.setState({  // add new event data
-        //     calendarEvents: this.state.calendarEvents.concat({ // creates a new array
-        //       title: 'New Event',
-        //       start: arg.date,
-        //       allDay: arg.allDay
-        //     })
-        //   })
-        // }
+        if(arg.view.type === "dayGridMonth") {
+            let calendarApi = calendarComponentRef.current.getApi()
+            calendarApi.changeView('timeGridDay', arg.dateStr);
+        }
+        else {
+            handleOpen();
+            setDateClicked({
+                allDay: arg.allDay,
+                date: arg.date,
+                dateStr: arg.dateStr
+            });
+        }
     }
 
     const addCalendarEvent = () => {
-        var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-        var date = new Date(dateStr + 'T00:00:00'); // will be in local time
-
-        // if (!isNaN(date.valueOf())) { // valid?
-        //     calendar.addEvent({
-        //         title: 'dynamic event',
-        //         start: date,
-        //         allDay: true
-        //     });
-        //     alert('Great. Now, update your database...');
-        // } else {
-        //     alert('Invalid date.');
-        // }
+        handleOpen();
     }
 
+    const handleSubmit = event => {
+        event.preventDefault();
+
+        setEvents(events.concat({
+            title: title,
+            description: description,
+            start: dateClicked.date,
+            allDay: dateClicked.allDay
+        }));
+
+        handleClose();
+    }
+
+    const handleInputChange = event => {
+        const { name, value } = event.target;
+
+        if (name === "title") {
+            setTitle(value);
+        }
+        else {
+            setDescription(value)
+        }
+    }
 
     return (
         <div className='demo-app'>
-            {/* <div className='demo-app-top'> */}
-                {/* <button onClick={ this.toggleWeekends }>toggle weekends</button>&nbsp;
-            <button onClick={ this.gotoPast }>go to a date in the past</button>&nbsp; */}
-            {/* (also, click a date/time to add an event)
-            </div> */}
             <div className='demo-app-calendar'>
                 <FullCalendar
                     defaultView="dayGridMonth"
+                    navLinks="true"
+                    eventLimit="true"
                     header={{
                         left: 'prev,next today addEventButton',
                         center: 'title',
@@ -126,28 +119,40 @@ function Dashboard() {
                     }}
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
                     ref={calendarComponentRef}
-                    // weekends={ this.state.calendarWeekends }
                     events={events}
                     dateClick={handleDateClick}
                 />
             </div>
+            <div>
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    className={classes.modal}
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                >
+                    <Fade in={open}>
+                        <div className={classes.paper}>
+                            <form onSubmit={handleSubmit}>
+                                <input placeholder="title" name="title" value={title} onChange={handleInputChange} required></input>
+                                <input placeholder="description" name="description" value={description} onChange={handleInputChange}></input>
+                                <input placeholder="date" onChange={handleDateClick} value={moment(dateClicked.date).format("l LT")}></input>
+                                {/* <input placeholder="all day"></input>
+                                <input placeholder="start"></input>
+                                <input placeholder="end"></input> */}
+                                <button type="submit">Add</button>
+                            </form>
+                        </div>
+                    </Fade>
+                </Modal>
+            </div>
         </div>
-    )
-
-
-    //   toggleWeekends = () => {
-    //     this.setState({ // update a property
-    //       calendarWeekends: !this.state.calendarWeekends
-    //     })
-    //   }
-
-    //   gotoPast = () => {
-    //     let calendarApi = this.calendarComponentRef.current.getApi()
-    //     calendarApi.gotoDate('2000-01-01') // call a method on the Calendar object
-    //   }
-
-
-
+    );
 }
 
 export default Dashboard;
