@@ -1,44 +1,17 @@
 import React from 'react';
 import "moment";
 import MomentUtils from '@date-io/moment';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DatePicker from "../DatePicker"
+import TimePicker from "../TimePicker"
 
-function DateTimePicker() {
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
-    
+function DateTimePicker(props) {
     return (
         <MuiPickersUtilsProvider utils={MomentUtils}>
-            {/* <Grid container justify="space-around"> */}
-            <KeyboardDatePicker
-                margin="normal"
-                // id="date-picker-dialog"
-                label="Date"
-                format="L"
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                }}
-            />
-            <KeyboardTimePicker
-                margin="normal"
-                // id="time-picker"
-                label="Time"
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                    'aria-label': 'change time',
-                }}
-            />
-            {/* </Grid> */}
+            {!props.allDay
+                ? <div><DatePicker {...props} /> <TimePicker {...props} /></div>
+                : <DatePicker {...props} />
+            }
         </MuiPickersUtilsProvider>
     );
 }
