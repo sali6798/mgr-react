@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import FacebookLogin from "react-facebook-login";
-import API from "./API/FBAPI"
+import API from "../../utils/FBAPI"
 
 function Facebook() {                               // user information
     const [userToken, setUserToken] = useState({
@@ -39,13 +39,25 @@ function Facebook() {                               // user information
             })
     }
 
-    const makeAPost = (pgId,pgToken,text) => {
+    const makeAPost = (pgId, pgToken, text) => {
 
         API.fbStatusPost(pgId, pgToken, text)
-        .then(() => {
-            console.log("Posted");
-        })
+            .then(() => {
+                console.log("Posted");
+            })
 
+    }
+
+    const postIMG = (pgId, imgUrl, text, pgToken) => {
+        // const postIMG = () => {
+        // const imgUrl = "res.cloudinary.com/mgr/image/upload/v1589488134/i1hmpq9o8dfhqv9njjdi.jpg"
+        // const pgToken = "EAADkDHWJynsBAKpHvMiyabwJL3vKx2hCUIjFeZCCbuk5hHcVyJ13heobFUAhnPAZBP8vV45mEFQiismz4iZBITmWFEahv980zLeCZBIZBdBQ8PUcQvdhDDVmlGloBVpRZCYVyvr6S7Mi2tpeDNr7d3hVKzsHCr4wo3hETkfyAll587pzKNu7UdNNNGKy5rd4yZBhH0XoxgrIwZDZD"
+        // const pgId = "110615460647818"
+        // const text = "YEZ"
+        API.fbPhotoPost(pgId, imgUrl,text, pgToken)
+            .then(() => {
+                console.log("Posted");
+            })
     }
 
     return (
@@ -60,7 +72,10 @@ function Facebook() {                               // user information
             <input type="button" value="AllPages" onClick={getAllpages} />
 
             {/* Need to pass PageID, PageToken, and Text */}
-            <input type="button" value="post" onClick={makeAPost} /> 
+            <input type="button" value="post" onClick={makeAPost} />
+            
+            {/* Need to pass PageID, imgURL, and PageToken */}
+            <input type="button" value="postIMG" onClick={postIMG} />
 
             <p>==========================ID============================</p>
             <p>{userToken.name}</p>
@@ -71,11 +86,11 @@ function Facebook() {                               // user information
 
             <p>==========================Pages============================</p>
             {pagesToken.map(item => (
-                <ul key={item.id}>     
-                    <li>Page Name: {item.name}</li>                    
+                <ul key={item.id}>
+                    <li>Page Name: {item.name}</li>
                     <li>Page ID: {item.id}</li>
                     <li>Page Token: {item.access_token}</li>
-                </ul>               
+                </ul>
             ))}
 
         </div>
