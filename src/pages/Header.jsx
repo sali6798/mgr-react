@@ -14,11 +14,11 @@ export default class Header extends Component {
         <li>
           <Link to="/">Home</Link>
         </li>
-        {authenticated ? (
-          <li onClick={this._handleLogoutClick}>Logout</li>
-        ) : (
-          <li onClick={this._handleSignInClick}>Login</li>
-        )}
+
+        <li onClick={this._handleLogoutClick}>Logout</li>
+
+        <li onClick={this._handleSignInClick}>Login</li>
+
       </ul>
     );
   }

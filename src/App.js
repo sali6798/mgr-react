@@ -1,13 +1,14 @@
 import React from 'react';
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import HomePage from './pages/Homepage'
+// import CreateAccount from "./pages/CreateAccount"
 
 function App() {
   return (
     <BrowserRouter>
       <div>
-        <Navbar />
+        {/* <Navbar /> */}
         {/* <Switch> */}
           {/* <Route exact path={["/", "/books"]} component={Books} /> */}
           {/* <Route exact path="/books/:id" component={Detail} /> */}
