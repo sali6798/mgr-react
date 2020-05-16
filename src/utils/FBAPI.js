@@ -7,6 +7,9 @@ export default {
     },
     fbStatusPost : (pageId, pageToken, text) => {
         return axios.post(`https://graph.facebook.com/${pageId}/feed?message=${text}&access_token=${pageToken}`)
+    },
+    fbPhotoPost : (pageId,imgURL,text,pageToken) => {
+        return axios.post(`https://graph.facebook.com/${pageId}/photos?url=${imgURL}&caption=${text}&access_token=${pageToken}`)
     }
 }
 
