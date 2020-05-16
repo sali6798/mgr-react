@@ -16,6 +16,7 @@ import MomentUtils from '@date-io/moment';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DatePicker from "../DatePicker";
 import Item from "../Item";
+import API from "../../utils/API"
 
 
 function PostForm() {
@@ -25,10 +26,12 @@ function PostForm() {
     const [imgPath, setImgPath] = useState([]);
     const [uploads, setUploads] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
 
     const handleDateChange = (date) => {
-        console.log(date)
-        setSelectedDate(date);
+        console.log(date._d)
+        setSelectedDate(date._d);
     };
 
     const handleClick = event => {
@@ -83,7 +86,7 @@ function PostForm() {
             //     <DateTimePicker selectedDate={selectedDate} handleDateChange={handleDateChange} allDay={allDay} />
             // </div>
             <MuiPickersUtilsProvider utils={MomentUtils}>
-                <DatePicker dateLabel="Send Date" selectedDate={selectedDate} handleDateChange={handleDateChange}/>
+                <DatePicker dateLabel="Send Date" selectedDate={selectedDate} handleDateChange={handleDateChange} />
             </MuiPickersUtilsProvider>
         );
     }
@@ -95,7 +98,29 @@ function PostForm() {
 
     const handleSubmit = event => {
         event.preventDefault();
-        console.log("hi")
+        const newPost = {
+            eventTitle: title,
+            body: body,
+            imageLinks: uploads.map(upload => upload.url),
+            release: selectedDate,
+            status: releaseStatus
+        }
+
+        API.createPost(newPost)
+            .then(({ data }) => console.log(data))
+            .catch(err => console.log(err))
+
+    }
+
+    const handleInputChange = event => {
+        const { name, value } = event.target;
+
+        if (name === "title") {
+            setTitle(value);
+        }
+        else {
+            setBody(value)
+        }
     }
 
     return (
@@ -107,7 +132,7 @@ function PostForm() {
                 alignItems="center"
             >
 
-                <TextField label="Event Title" variant="outlined"></TextField>
+                <TextField label="Event Title" variant="outlined" name="title" value={title} onChange={handleInputChange} required></TextField>
 
                 <TextField
                     id="outlined-multiline-static"
@@ -115,6 +140,9 @@ function PostForm() {
                     multiline
                     rows={4}
                     variant="outlined"
+                    name="body"
+                    value={body}
+                    onChange={handleInputChange}
                 />
                 <Grid container alignItems="center" justify="center">
                     <input type="file" id="uploadImg" name="uploadImg" onChange={selectFile} />

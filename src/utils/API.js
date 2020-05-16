@@ -9,5 +9,8 @@ export default {
     // }
     signup: function(user) {
         return axios.post(BASE_URL + "/api/user", user)
+    },
+    createPost: function(post) {
+        return axios.post(BASE_URL + "/api/post", post)
     }
 }
