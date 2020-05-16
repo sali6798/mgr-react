@@ -8,6 +8,6 @@ export default {
     //     return axios.post(BASE_URL + "/login", userData, {withCredentials: true})
     // }
     signup: function(user) {
-        return axios.post(BASE_URL + "/api/user")
+        return axios.post(BASE_URL + "/api/user", user)
     }
 }
