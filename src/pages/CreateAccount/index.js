@@ -1,9 +1,11 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import "./style.css";
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Grid, Paper, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput, FormHelperText } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import API from "../../utils/API"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function CreateAccount() {
-
+    let history = useHistory();
     const classes = useStyles();
 
     const [values, setValues] = React.useState({
@@ -59,6 +61,22 @@ function CreateAccount() {
         event.preventDefault();
     };
 
+    const handleSubmit = event => {
+        event.preventDefault();
+        const newUser = {
+            name: values.firstName + values.lastName,
+            email: values.email,
+            password: values.password,
+            isManager: values.isManager
+        }
+
+        API.signup(newUser)
+        .then(({data}) => console.log(data))
+        .then(() => history.push("/dashboard"))
+        .catch(err => console.log(err))
+
+    }
+
     function validate(event, field) {
         event.preventDefault()
         switch (field) {
@@ -77,7 +95,7 @@ function CreateAccount() {
             <Grid item xs={3} />
             <Grid item xs={6}>
                 <Paper className={classes.paper} elevation={3} maxWidth="sm">
-                    <form className={classes.root} noValidate autoComplete="off">
+                    <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
                         <h3>Create Your Account</h3>
                         <div>
                             <TextField
@@ -162,10 +180,10 @@ function CreateAccount() {
                         <div>
                             <Button className={classes.margin} variant="contained" color="primary">
                                 Go Back
-                </Button>
-                            <Button className={classes.margin} variant="contained" color="primary">
+                            </Button>
+                            <Button className={classes.margin} variant="contained" color="primary" type="submit">
                                 Submit
-                </Button>
+                            </Button>
                         </div>
                     </form>
                 </Paper>
