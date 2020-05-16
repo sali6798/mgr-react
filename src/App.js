@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import CreateAccount from "./pages/CreateAccount"
 import Login from "./pages/Login"
 import Landing from "./pages/Landing"
+import Test from "./pages/Test"
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Switch>
           <Route exact path={"/dashboard"} component={Dashboard} />
           <Route exact path={["/"]} component={Landing} /> 
+          <Route exact path={"/test"} component={Test} /> 
           <Route exact path="/createaccount" component={CreateAccount} /> 
           <Route exact path="/login" component={Login} /> 
           
