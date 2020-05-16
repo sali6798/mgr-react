@@ -5,9 +5,8 @@ function TimePicker(props) {
     return (
         <KeyboardTimePicker
             margin="normal"
-            // id="time-picker"
-            label="Time"
-            value={props.selectedDate}
+            label={props.timeLabel}
+            value={props.timeLabel === "Start Time" ? props.startDate : props.endDate}
             onChange={props.handleDateChange}
             KeyboardButtonProps={{
                 'aria-label': 'change time',
