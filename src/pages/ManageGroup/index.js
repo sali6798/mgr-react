@@ -29,7 +29,7 @@ function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
 }
 
-function GroupView() {
+function ManageGroup() {
 
     const classes = useStyles();
 
@@ -40,27 +40,27 @@ function GroupView() {
             <Grid item xs={3} />
             <Grid item xs={6}>
                 <Paper className={classes.paper} elevation={3}>
-                    <h1>Your Groups</h1>
+                    <h1>Artists</h1>
                     <hr />
                     <List component="nav" aria-label="secondary mailbox folders">
                         <ListItemLink href=" ">
-                            <ListItemText primary="Group 1" />
+                            <ListItemText primary="Artist 1" />
                         </ListItemLink>
                         <ListItemLink href=" ">
-                            <ListItemText primary="Group 2" />
+                            <ListItemText primary="Artist 2" />
                         </ListItemLink>
                         <ListItemLink href=" ">
-                            <ListItemText primary="Group 3" />
+                            <ListItemText primary="Artist 3" />
                         </ListItemLink>
                     </List>
                     <br />
                     <div>
                     
                             <Button className={classes.margin} variant="contained" color="primary">
-                                Remove Group
+                                Remove Artist
                 </Button>
                             <Button className={classes.margin} variant="contained" color="primary">
-                                Add Group
+                                Add Artist
                 </Button>
                         </div>
                 </Paper>
@@ -71,4 +71,4 @@ function GroupView() {
     )
 }
 
-export default GroupView;
+export default ManageGroup;
