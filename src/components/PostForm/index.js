@@ -3,24 +3,24 @@ import {
     Button,
     FormControl,
     FormControlLabel,
-    FormGroup,
     FormLabel,
     Grid,
     Radio,
     RadioGroup,
-    Switch,
     TextField,
     List
 } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import DateTimePicker from "../DateTimePicker";
+import "moment";
+import MomentUtils from '@date-io/moment';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DatePicker from "../DatePicker";
 import Item from "../Item";
 
 
 function PostForm() {
     // The first commit of Material-UI
 
-    const [allDay, setAllDay] = useState(false);
     const [releaseStatus, setReleaseStatus] = useState("draft");
     const [imgPath, setImgPath] = useState([]);
     const [uploads, setUploads] = useState([]);
@@ -29,11 +29,6 @@ function PostForm() {
     const handleDateChange = (date) => {
         console.log(date)
         setSelectedDate(date);
-    };
-
-    const handleChange = event => {
-        // console.log(selectedDate)
-        setAllDay(event.target.checked);
     };
 
     const handleClick = event => {
@@ -56,7 +51,7 @@ function PostForm() {
         );
         const file = await res.json();           // URL Link to picture
         // console.log(file)
-        setUploads(uploads.concat({ 
+        setUploads(uploads.concat({
             id: imgPath.name + uploads.length,
             name: imgPath.name,
             url: file.url
@@ -71,22 +66,25 @@ function PostForm() {
 
     const displayScheduler = () => {
         return (
-            <div>
-                <FormGroup >
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={allDay}
-                                onChange={handleChange}
-                                name="allDay"
-                                color="primary"
-                            />
-                        }
-                        label="All Day"
-                    />
-                </FormGroup>
-                <DateTimePicker selectedDate={selectedDate} handleDateChange={handleDateChange} allDay={allDay} />
-            </div>
+            // <div>
+            //     <FormGroup >
+            //         <FormControlLabel
+            //             control={
+            //                 <Switch
+            //                     checked={allDay}
+            //                     onChange={handleChange}
+            //                     name="allDay"
+            //                     color="primary"
+            //                 />
+            //             }
+            //             label="All Day"
+            //         />
+            //     </FormGroup>
+            //     <DateTimePicker selectedDate={selectedDate} handleDateChange={handleDateChange} allDay={allDay} />
+            // </div>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+                <DatePicker dateLabel="Send Date" selectedDate={selectedDate} handleDateChange={handleDateChange}/>
+            </MuiPickersUtilsProvider>
         );
     }
 
@@ -95,8 +93,13 @@ function PostForm() {
         setUploads(newUploads);
     }
 
+    const handleSubmit = event => {
+        event.preventDefault();
+        console.log("hi")
+    }
+
     return (
-        <form noValidate autoComplete="off">
+        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
             <Grid
                 container
                 direction="column"
@@ -104,7 +107,7 @@ function PostForm() {
                 alignItems="center"
             >
 
-                <TextField label="Title" variant="outlined"></TextField>
+                <TextField label="Event Title" variant="outlined"></TextField>
 
                 <TextField
                     id="outlined-multiline-static"
@@ -138,6 +141,7 @@ function PostForm() {
                 </FormControl>
 
                 {releaseStatus === "later" ? displayScheduler() : ""}
+                <Button variant="contained" color="primary" type="submit">Save</Button>
             </Grid>
         </form>
     );
