@@ -47,7 +47,7 @@ function Landing() {
                 <br />
                 <Button variant="contained" color="primary">
                         What Do I Do?
-                    </Button>
+                </Button>
             </Paper>
         </Grid>
     </Grid>
