@@ -4,15 +4,25 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
 import listPlugin from '@fullcalendar/list';
-import moment from "moment"
-
+import moment from "moment";
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import "@fullcalendar/list/main.css";
 
-import { Modal, Backdrop, Fade } from "@material-ui/core";
+import {
+    Modal,
+    Backdrop,
+    Fade,
+    Button,
+    FormControlLabel,
+    FormGroup,
+    Grid,
+    Switch,
+    TextField
+} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import DateTimePicker from "../../components/DateTimePicker";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -34,11 +44,11 @@ function Dashboard() {
         { title: 'Event Now', start: new Date() }
     ])
 
-    const [dateClicked, setDateClicked] = useState({
+    const [chosenDate, setChosenDate] = useState({
         allDay: false,
-        date: new Date(),
-        dateStr: ""
-    });
+        startDate: new Date(),
+        endDate: new Date()
+    })
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -54,35 +64,61 @@ function Dashboard() {
         setOpen(false);
         setTitle("");
         setDescription("");
+        setChosenDate({
+            allDay: false,
+            startDate: new Date(),
+            endDate: new Date()
+        });
     };
 
-    const handleDateClick = (arg) => {
-        if(arg.view.type === "dayGridMonth") {
+    const handleDateClick = arg => {
+        if (arg.view.type === "dayGridMonth") {
             let calendarApi = calendarComponentRef.current.getApi()
             calendarApi.changeView('timeGridDay', arg.dateStr);
         }
         else {
-            handleOpen();
-            setDateClicked({
+            console.log(arg)
+            setChosenDate({
                 allDay: arg.allDay,
-                date: arg.date,
-                dateStr: arg.dateStr
+                startDate: arg.date,
+                endDate: arg.date
             });
+
+            handleOpen();
         }
+    }
+
+    const handleEndDateChange = (date) => {
+        console.log(date)
+        setChosenDate({ ...chosenDate, endDate: date._d })
+    }
+
+    const handleStartDateChange = (date) => {
+        console.log(date._d)
+        setChosenDate({ ...chosenDate, startDate: date._d })
     }
 
     const addCalendarEvent = () => {
         handleOpen();
     }
 
+    const calculateEndDate = () => {
+        if (chosenDate.allDay && chosenDate.endDate > chosenDate.startDate) {
+            return moment(chosenDate.endDate).add(1, "days")._d;
+        }
+
+        return chosenDate.endDate;
+    }
+
     const handleSubmit = event => {
         event.preventDefault();
-
+        console.log(chosenDate)
         setEvents(events.concat({
             title: title,
             description: description,
-            start: dateClicked.date,
-            allDay: dateClicked.allDay
+            start: chosenDate.startDate,
+            end: calculateEndDate(),
+            allDay: chosenDate.allDay
         }));
 
         handleClose();
@@ -98,6 +134,10 @@ function Dashboard() {
             setDescription(value)
         }
     }
+
+    const handleChange = event => {
+        setChosenDate({ ...chosenDate, allDay: event.target.checked })
+    };
 
     return (
         <div className='demo-app'>
@@ -138,14 +178,43 @@ function Dashboard() {
                 >
                     <Fade in={open}>
                         <div className={classes.paper}>
-                            <form onSubmit={handleSubmit}>
-                                <input placeholder="title" name="title" value={title} onChange={handleInputChange} required></input>
-                                <input placeholder="description" name="description" value={description} onChange={handleInputChange}></input>
-                                <input placeholder="date" onChange={handleDateClick} value={moment(dateClicked.date).format("l LT")}></input>
-                                {/* <input placeholder="all day"></input>
-                                <input placeholder="start"></input>
-                                <input placeholder="end"></input> */}
-                                <button type="submit">Add</button>
+                            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                                <Grid
+                                    container
+                                    direction="column"
+                                    justify="space-around"
+                                    alignItems="center"
+                                >
+                                    <TextField label="Event Title" variant="outlined" name="title" value={title} onChange={handleInputChange} required></TextField>
+                                    <TextField
+                                        id="outlined-multiline-static"
+                                        label="Description"
+                                        multiline
+                                        rows={4}
+                                        variant="outlined"
+                                        name="description"
+                                        value={description}
+                                        onChange={handleInputChange}
+                                    />
+
+                                    <FormGroup >
+                                        <FormControlLabel
+                                            control={
+                                                <Switch
+                                                    checked={chosenDate.allDay}
+                                                    onChange={handleChange}
+                                                    name="allDay"
+                                                    color="primary"
+                                                />
+                                            }
+                                            label="All Day"
+                                        />
+                                    </FormGroup>
+
+                                    <DateTimePicker {...chosenDate} dateLabel="Start Date" timeLabel="Start Time" handleDateChange={handleStartDateChange} />
+                                    <DateTimePicker {...chosenDate} dateLabel="End Date" timeLabel="End Time" handleDateChange={handleEndDateChange} />
+                                    <Button variant="contained" color="primary" type="submit">Save</Button>
+                                </Grid>
                             </form>
                         </div>
                     </Fade>
