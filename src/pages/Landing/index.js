@@ -49,12 +49,7 @@ function Landing() {
                 <br />
                 <Button variant="contained" color="primary">
                         What Do I Do?
-<<<<<<< HEAD
-                        
-                    </Button>
-=======
                 </Button>
->>>>>>> development
             </Paper>
         </Grid>
     </Grid>
