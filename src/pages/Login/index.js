@@ -58,12 +58,15 @@ function Login() {
 
     const handleSubmitLogin = (event) => {
         event.preventDefault();
-        API.login(
-            {
-                email: values.email,
-                password: values.password
-            }
-        )
+        const user = {
+            email: values.email,
+            password: values.password
+        }
+        console.log(user)
+
+        API.login(user)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
     }
 
     return (

@@ -5,7 +5,7 @@ const BASE_URL = "http://localhost:8080"
 
 export default {
     login: function(userData) {
-        return axios.post(BASE_URL + "/login", userData, {withCredentials: true})
+        return axios.post(BASE_URL + "/auth/login", userData, { withCredentials: true })
     },
     signup: function (user) {
         return axios.post(BASE_URL + "/api/user", user)
