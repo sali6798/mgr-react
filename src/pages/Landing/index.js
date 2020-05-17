@@ -3,6 +3,7 @@ import "./style.css";
 import { Paper, Grid, Button  } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -21,9 +22,10 @@ const useStyles = makeStyles((theme) => ({
 
 function Landing() {
     const classes = useStyles();
-
+    
     return (
     <div className={classes.root}>
+        
     <Grid container spacing={3}>
         <Grid item xs={6}>
             <Paper className={classes.paper} elevation={3}>
@@ -47,10 +49,12 @@ function Landing() {
                 <br />
                 <Button variant="contained" color="primary">
                         What Do I Do?
+                        
                     </Button>
             </Paper>
         </Grid>
     </Grid>
+        
     </div>
     )
 }
