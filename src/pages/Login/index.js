@@ -1,4 +1,5 @@
 import React from "react";
+import API from "../../utils/API"
 import "./style.css"
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Grid, Paper, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput } from '@material-ui/core'
@@ -55,6 +56,16 @@ function Login() {
         event.preventDefault();
     };
 
+    const handleSubmitLogin = (event) => {
+        event.preventDefault();
+        API.login(
+            {
+                email: values.email,
+                password: values.password
+            }
+        )
+    }
+
     return (
         <Grid className={classes.grid} container spacing={1}>
             <Grid item xs={3} />
@@ -102,7 +113,7 @@ function Login() {
                             <Button className={classes.margin} variant="contained" color="primary">
                                 Go Back
                 </Button>
-                            <Button className={classes.margin} variant="contained" color="primary">
+                            <Button className={classes.margin} variant="contained" color="primary" onClick={handleSubmitLogin}>
                                 Submit
                 </Button>
                         </div>
