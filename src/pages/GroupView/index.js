@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, List, ListItem, ListItemText, Grid, } from '@material-ui/core';
+import { Paper, List, ListItem, ListItemText, Grid, Button } from '@material-ui/core';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Divider from '@material-ui/core/Divider';
 import "./style.css";
+import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,8 +31,17 @@ function ListItemLink(props) {
 }
 
 function GroupView() {
-
     const classes = useStyles();
+    const [groups, setGroups] = useState([]);
+
+    useEffect(() => {
+        // API.readSessions()
+        // .then({ _id } => )
+
+        API.getGroups()
+        .then(({data}) => setGroups(data))
+        .catch(err => console.log(err));
+    }, [])
 
     return (
 
@@ -43,7 +53,7 @@ function GroupView() {
                     <h1>Your Groups</h1>
                     <hr />
                     <List component="nav" aria-label="secondary mailbox folders">
-                        <ListItemLink href=" ">
+                        {/* <ListItemLink href=" ">
                             <ListItemText primary="Group 1" />
                         </ListItemLink>
                         <ListItemLink href=" ">
@@ -51,7 +61,8 @@ function GroupView() {
                         </ListItemLink>
                         <ListItemLink href=" ">
                             <ListItemText primary="Group 3" />
-                        </ListItemLink>
+                        </ListItemLink> */}
+                        {groups.map(group => <ListItemLink key={group._id} href={"/manage/" + group._id}><ListItemText>{group.name}</ListItemText></ListItemLink>)}
                     </List>
                     <br />
                     <div>
