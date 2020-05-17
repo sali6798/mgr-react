@@ -5,11 +5,9 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import CreateAccount from "./pages/CreateAccount"
 import Login from "./pages/Login"
 import Landing from "./pages/Landing"
-<<<<<<< HEAD
 import GroupView from "./pages/GroupView"
-=======
+import ManageGroup from "./pages/ManageGroup"
 import Test from "./pages/Test"
->>>>>>> development
 
 function App() {
   return (
@@ -21,6 +19,7 @@ function App() {
           <Route exact path={["/"]} component={Landing} /> 
           <Route exact path={"/test"} component={Test} /> 
           <Route exact path="/createaccount" component={CreateAccount} /> 
+          <Route exact path="/manage/:id" component={ManageGroup} /> 
           <Route exact path="/login" component={Login} /> 
           <Route exact path="/groups" component={GroupView} /> 
           
