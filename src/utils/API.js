@@ -7,10 +7,17 @@ export default {
     // login: function() {
     //     return axios.post(BASE_URL + "/login", userData, {withCredentials: true})
     // }
-    signup: function(user) {
+    signup: function (user) {
         return axios.post(BASE_URL + "/api/user", user)
     },
-    createPost: function(post) {
+    createPost: function (post) {
         return axios.post(BASE_URL + "/api/post", post)
+    },
+    readSessions: function () {
+        // return axios.get(BASE_URL + "/readsessions", { withCredentials: true })
+        return axios.get(BASE_URL + "/readsessions")
+    },
+    getGroups: function () {
+        return axios.get(BASE_URL + "/api/group/find/manager")
     }
 }
