@@ -59,7 +59,7 @@ function Login() {
     const handleSubmitLogin = (event) => {
         event.preventDefault();
         const user = {
-            email: values.email,
+            username: values.email,
             password: values.password
         }
         console.log(user)
