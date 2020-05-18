@@ -94,20 +94,18 @@ function CreateAccount() {
         <Grid className={classes.grid} container spacing={1}>
             <Grid item xs={3} />
             <Grid item xs={6}>
-                <Paper className={classes.paper} elevation={3} maxWidth="sm">
+                <Paper className={classes.paper} elevation={3} maxwidth="sm">
                     <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
                         <h3>Create Your Account</h3>
                         <div>
                             <TextField
                                 required
-                                id="outlined-required"
                                 label="First Name"
                                 value={values.firstName}
                                 onChange={handleChange('firstName')}
                                 variant="outlined" />
                             <TextField
                                 required
-                                id="outlined-required"
                                 label="Last Name"
                                 value={values.lastName}
                                 onChange={handleChange('lastName')}
@@ -116,7 +114,6 @@ function CreateAccount() {
                         <div>
                             <TextField
                                 required
-                                id="outlined-required"
                                 label="Email"
                                 value={values.email}
                                 onChange={handleChange('email')}
@@ -124,9 +121,9 @@ function CreateAccount() {
                         </div>
                         <div>
                             <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <InputLabel htmlFor="password">Password</InputLabel>
                                 <OutlinedInput
-                                    id="outlined-adornment-password"
+                                    id="password"
                                     label="Password"
                                     type={values.showPassword ? 'text' : 'password'}
                                     value={values.password}
@@ -152,9 +149,9 @@ function CreateAccount() {
                                 <FormHelperText id="password-error-length">Password must be more than 8 characters</FormHelperText>
                             </FormControl>
                             <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                                <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
                                 <OutlinedInput
-                                    id="outlined-adornment-password"
+                                    id="confirmPassword"
                                     label="Confirm Password"
                                     type={values.showPassword ? 'text' : 'password'}
                                     value={values.confirmPassword}
