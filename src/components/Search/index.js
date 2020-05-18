@@ -56,8 +56,8 @@ function Search(props) {
                     <TextField
                         {...params}
                         variant="outlined"
-                        label="filterSelectedOptions"
-                        placeholder="Add Artist"
+                        label="Find Artist"
+                        // placeholder="Add Artist"
                     />
                 )}
             />

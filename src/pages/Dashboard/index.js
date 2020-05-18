@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -23,6 +23,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import DateTimePicker from "../../components/DateTimePicker";
+import API from '../../utils/API'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -40,9 +41,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard() {
     const calendarComponentRef = React.createRef()
-    const [events, setEvents] = useState([
+    const [myEvents, setMyEvents] = useState([
         { title: 'Event Now', start: new Date() }
     ])
+
+    const [events, setEvents] = useState([])
 
     const [chosenDate, setChosenDate] = useState({
         allDay: false,
@@ -55,6 +58,40 @@ function Dashboard() {
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+
+    useEffect(() => {
+        // readsessions see if manager find groups theyre manager of
+        // else artist get their group info
+        API.getUserGroupInfo("5ec13a694458c657cc23d9f5")
+        .then(({ data }) => {
+            console.log(data)
+            let posts = [];
+
+            const groupPosts = data.groups.filter(group => group.posts.length > 0).map(group => group.posts)
+            console.log(groupPosts)
+
+            console.log(posts.concat(...groupPosts))
+            posts = posts.concat(...groupPosts)
+            
+
+            const groupEvents = posts.map(post => {
+                const eventObj = {
+                    title: post.eventTitle,
+                    description: post.body,
+                    start: post.release,
+                    allDay: true
+                }
+
+                return eventObj;
+            })
+
+            console.log(groupEvents)
+
+            setEvents(events.concat(groupEvents))
+
+        })
+        .catch(err => console.log(err))
+    }, [])
 
     const handleOpen = () => {
         setOpen(true);
@@ -113,7 +150,7 @@ function Dashboard() {
     const handleSubmit = event => {
         event.preventDefault();
         console.log(chosenDate)
-        setEvents(events.concat({
+        setMyEvents(myEvents.concat({
             title: title,
             description: description,
             start: chosenDate.startDate,
@@ -159,7 +196,7 @@ function Dashboard() {
                     }}
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
                     ref={calendarComponentRef}
-                    events={events}
+                    events={events.concat(myEvents)}
                     dateClick={handleDateClick}
                 />
             </div>
