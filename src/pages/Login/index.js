@@ -73,7 +73,7 @@ function Login() {
         <Grid className={classes.grid} container spacing={1}>
             <Grid item xs={3} />
             <Grid item xs={6}>
-                <Paper className={classes.paper} elevation={3} maxWidth="sm">
+                <Paper className={classes.paper} elevation={3} maxwidth="sm">
                     <form className={classes.root} noValidate autoComplete="off">
                         <h3>Login</h3>
                         <div>
