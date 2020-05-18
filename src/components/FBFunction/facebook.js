@@ -33,10 +33,13 @@ function Facebook() {                               // user information
     }
 
     const getAllpages = () => {             //  get all pages that user own to get a token and id for each page
+        console.log("click");
         API.fbGetPagesToken(userToken.userId, userToken.userToken)
             .then(({ data }) => {
+                console.log(data);
                 setPagesToken(data.data);
             })
+           
     }
 
     const makeAPost = (pgId, pgToken, text) => {
@@ -48,12 +51,12 @@ function Facebook() {                               // user information
 
     }
 
-    const postIMG = (pgId, imgUrl, text, pgToken) => {
-        // const postIMG = () => {
-        // const imgUrl = "res.cloudinary.com/mgr/image/upload/v1589488134/i1hmpq9o8dfhqv9njjdi.jpg"
-        // const pgToken = "EAADkDHWJynsBAKpHvMiyabwJL3vKx2hCUIjFeZCCbuk5hHcVyJ13heobFUAhnPAZBP8vV45mEFQiismz4iZBITmWFEahv980zLeCZBIZBdBQ8PUcQvdhDDVmlGloBVpRZCYVyvr6S7Mi2tpeDNr7d3hVKzsHCr4wo3hETkfyAll587pzKNu7UdNNNGKy5rd4yZBhH0XoxgrIwZDZD"
-        // const pgId = "110615460647818"
-        // const text = "YEZ"
+    // const postIMG = (pgId, imgUrl, text, pgToken) => {
+        const postIMG = () => {
+        const imgUrl = "res.cloudinary.com/mgr/image/upload/v1589488134/i1hmpq9o8dfhqv9njjdi.jpg"
+        const pgToken = "EAADkDHWJynsBAOyjKNDj6tnEu1GZAVpxwtkvvaczDTn7BE4qN0Ic85VVebIDp4kCtbwhD1BhIyCnzctldSREOUqdsVxyhSYGGrUXK6NNXFRxKyW7PenqX8tbGM9uWP1MM3R73Hx0m0vmba4pT84c6UGvDmukaSWeMgyEyrBrCQmQ14OW2f8c8CUvrzehYJcoHOrzPIZB1IhnqLZCR4K"
+        const pgId = "105515591170641"        
+        const text = "YEZ"
         API.fbPhotoPost(pgId, imgUrl,text, pgToken)
             .then(() => {
                 console.log("Posted");

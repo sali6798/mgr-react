@@ -6,6 +6,7 @@ import CreateAccount from "./pages/CreateAccount"
 import Login from "./pages/Login"
 import Landing from "./pages/Landing"
 import GroupView from "./pages/GroupView"
+import ManageGroup from "./pages/ManageGroup"
 import Test from "./pages/Test"
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route exact path={["/"]} component={Landing} /> 
           <Route exact path={"/test"} component={Test} /> 
           <Route exact path="/createaccount" component={CreateAccount} /> 
+          <Route exact path="/manage/:id" component={ManageGroup} /> 
           <Route exact path="/login" component={Login} /> 
           <Route exact path="/groups" component={GroupView} /> 
           
