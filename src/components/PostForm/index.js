@@ -19,7 +19,7 @@ import Item from "../Item";
 import API from "../../utils/API"
 
 
-function PostForm() {
+function PostForm(props) {
     // The first commit of Material-UI
 
     const [releaseStatus, setReleaseStatus] = useState("draft");
@@ -103,11 +103,16 @@ function PostForm() {
             body: body,
             imageLinks: uploads.map(upload => upload.url),
             release: selectedDate,
-            status: releaseStatus
+            status: releaseStatus,
+            groupId: props.groupId
         }
 
         API.createPost(newPost)
             .then(({ data }) => console.log(data))
+            .then(() => {
+                props.handleClose();
+                props.loadGroup();
+            })
             .catch(err => console.log(err))
 
     }
@@ -128,47 +133,57 @@ function PostForm() {
             <Grid
                 container
                 direction="column"
-                justify="space-around"
+                // justify="space-around"
+                spacing={2}
                 alignItems="center"
             >
-
-                <TextField label="Event Title" variant="outlined" name="title" value={title} onChange={handleInputChange} required></TextField>
-
-                <TextField
-                    id="outlined-multiline-static"
-                    label="Post Body"
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    name="body"
-                    value={body}
-                    onChange={handleInputChange}
-                />
-                <Grid container alignItems="center" justify="center">
-                    <input type="file" id="uploadImg" name="uploadImg" onChange={selectFile} />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<CloudUploadIcon />}
-                        onClick={uploadIMG}
-                    >
-                        Upload
-                    </Button>
+                <Grid item>
+                    <TextField label="Event Title" variant="outlined" name="title" value={title} onChange={handleInputChange} required></TextField>
                 </Grid>
-                <List>
-                    {uploads.map(upload => <Item key={upload.id} {...upload} handleDelete={handleDelete} />)}
-                </List>
+                <Grid item>
+                    <TextField
+                        id="outlined-multiline-static"
+                        label="Post Body (optional)"
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                        name="body"
+                        value={body}
+                        onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid item>
+                    <Grid container alignItems="center" justify="center">
+                        <input type="file" id="uploadImg" name="uploadImg" onChange={selectFile} />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<CloudUploadIcon />}
+                            onClick={uploadIMG}
+                        >
+                            Upload
+                    </Button>
+                    </Grid>
+                </Grid>
 
-                <FormControl component="fieldset">
-                    <FormLabel component="legend">Schedule Release</FormLabel>
-                    <RadioGroup row aria-label="position" name="position" defaultValue="draft" >
-                        <FormControlLabel value="draft" control={<Radio color="primary" onClick={handleClick} />} label="Not Ready" />
-                        <FormControlLabel value="ready" control={<Radio color="primary" onClick={handleClick} />} label="Send out now" />
-                        <FormControlLabel value="later" control={<Radio color="primary" onClick={handleClick} />} label="Schedule for later" />
-                    </RadioGroup>
-                </FormControl>
+                {uploads.length > 0
+                    ? <Grid item><List>{uploads.map(upload => <Item key={upload.id} {...upload} handleDelete={handleDelete} />)}</List></Grid>
+                    : ""
+                }
 
-                {releaseStatus === "later" ? displayScheduler() : ""}
+                <Grid item>
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend">Schedule Release</FormLabel>
+                        <RadioGroup row aria-label="position" name="position" defaultValue="draft" >
+                            <FormControlLabel value="draft" control={<Radio color="primary" onClick={handleClick} />} label="Not Ready" />
+                            <FormControlLabel value="ready" control={<Radio color="primary" onClick={handleClick} />} label="Send out now" />
+                            <FormControlLabel value="later" control={<Radio color="primary" onClick={handleClick} />} label="Schedule for later" />
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                <Grid item>
+                    {releaseStatus === "later" ? displayScheduler() : ""}
+                </Grid>
                 <Button variant="contained" color="primary" type="submit">Save</Button>
             </Grid>
         </form>
