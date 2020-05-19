@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import "./style.css";
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { Grid, Paper, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput, FormHelperText } from '@material-ui/core'
+import { Grid, Paper, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput, FormHelperText, FormControlLabel, Switch } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import API from "../../utils/API"
@@ -45,13 +45,17 @@ function CreateAccount() {
         email: "",
         password: "",
         confirmPassword: "",
-        isManager: true,
+        isManager: false,
         showPassword: false
     })
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
+
+    const handleSwitch = () => {
+        setValues({ ...values, isManager: !values.isManager })
+    }
 
     const handleClickShowPassword = () => {
         setValues({ ...values, showPassword: !values.showPassword });
@@ -71,9 +75,11 @@ function CreateAccount() {
         }
 
         API.signup(newUser)
-        .then(({data}) => console.log(data))
-        .then(() => history.push("/dashboard"))
-        .catch(err => console.log(err))
+            .then(({ data }) => {
+                console.log(data)
+                history.push("/dashboard")
+            })
+            .catch(err => console.log(err))
 
     }
 
@@ -173,13 +179,20 @@ function CreateAccount() {
                                 />
                             </FormControl>
                         </div>
-                        <br></br>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={values.isManager}
+                                    onChange={handleSwitch}
+                                    name="manager"
+                                    color="primary"
+                                />
+                            }
+                            label="Manager Account"
+                        />
                         <div>
-                            <Button className={classes.margin} variant="contained" color="primary">
-                                Go Back
-                            </Button>
                             <Button className={classes.margin} variant="contained" color="primary" type="submit">
-                                Submit
+                                Create Account
                             </Button>
                         </div>
                     </form>
