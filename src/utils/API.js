@@ -1,11 +1,14 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080"
-// const BASE_URL = "https://mgrserver.herokuapp.com"
+// const BASE_URL = "http://localhost:8080"
+const BASE_URL = "https://mgrserver.herokuapp.com"
 
 export default {
     login: function(userData) {
         return axios.post(BASE_URL + "/auth/login", userData, { withCredentials: true })
+    },
+    logout: function() {
+        return axios.get(BASE_URL + "/auth/logout")
     },
     signup: function (user) {
         return axios.post(BASE_URL + "/api/user", user)
@@ -40,5 +43,8 @@ export default {
     },
     removeGroup: function (id) {
         return axios.delete(BASE_URL + "/api/group/" + id)
+    },
+    getUserGroupInfo: function (id) {
+        return axios.get(BASE_URL + "/api/user/" + id)
     }
 }

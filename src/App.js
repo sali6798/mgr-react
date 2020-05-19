@@ -21,6 +21,7 @@ function App() {
           <Route exact path="/createaccount" component={CreateAccount} /> 
           <Route exact path="/manage/:id" component={ManageGroup} /> 
           <Route exact path="/login" component={Login} /> 
+          <Route exact path="/logout" component={Landing} /> 
           <Route exact path="/groups" component={GroupView} /> 
           
         </Switch>
