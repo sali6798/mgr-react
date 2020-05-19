@@ -19,11 +19,18 @@ import {
     FormGroup,
     Grid,
     Switch,
-    TextField
+    TextField,
+    Paper,
+    List,
+    ListItem,
+    ListItemText,
+    Tooltip
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import DateTimePicker from "../../components/DateTimePicker";
-import API from '../../utils/API'
+import API from '../../utils/API';
+import NotAuthorized from "../NotAuthorized";
+import PreviewBtn from "../../components/PreviewBtn";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -32,10 +39,16 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
     },
     paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+    },
+    modalPaper: {
         backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
+        // border: '1px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+        borderRadius: "5px"
     },
 }));
 
@@ -43,7 +56,8 @@ function Dashboard() {
     const calendarComponentRef = React.createRef()
     const [myEvents, setMyEvents] = useState([])
 
-    const [events, setEvents] = useState([])
+    const [events, setEvents] = useState([]);
+    const [posts, setPosts] = useState([]);
 
     const [chosenDate, setChosenDate] = useState({
         allDay: false,
@@ -55,65 +69,32 @@ function Dashboard() {
     const [description, setDescription] = useState("");
 
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+
+    const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
         async function init() {
             try {
                 const { data: user } = await API.readSessions();
-                console.log(user)
 
-                if (user.isManager) {
-                    const { data: groups } = await API.getGroups();
-                    console.log(groups)
+                if (user) {
+                    setLoggedIn(true);
 
-                    // if (groups.length > 0) {
-                    //     let posts = [];
-                    //     const groupPosts = groups.filter(group => group.posts.length > 0).map(group => group.posts)
-                    //     console.log(groupPosts)
+                    if (user.isManager) {
+                        const { data: groups } = await API.getGroups();
+                        console.log(groups)
 
-                    //     if (groupPosts.length > 0) {
-                    //         posts = posts.concat(...groupPosts)
-                    //         const groupEvents = posts.map(post => {
-                    //             const eventObj = {
-                    //                 title: post.eventTitle,
-                    //                 description: post.body,
-                    //                 start: post.release,
-                    //                 allDay: true
-                    //             }
+                        renderEvents(groups);
+                    }
+                    else {
+                        const { data } = await API.getUserGroupInfo(user._id);
 
-                    //             return eventObj;
-                    //         })
+                        renderEvents(data.groups)
+                    }
 
-                    //         setEvents(events.concat(groupEvents))
-                    //     }
-                    // }
-                    renderEvents(groups);
+                    setMyEvents(user.myEvents)
                 }
-                else {
-                    const { data } = await API.getUserGroupInfo(user._id);
-                    // let posts = [];
-                    // const groupPosts = data.groups.filter(group => group.posts.length > 0).map(group => group.posts)
-                    // if (groupPosts.length > 0) {
-                    //     posts = posts.concat(...groupPosts)
-                    //     const groupEvents = posts.map(post => {
-                    //         const eventObj = {
-                    //             title: post.eventTitle,
-                    //             description: post.body,
-                    //             start: post.release,
-                    //             allDay: true
-                    //         }
-
-                    //         return eventObj;
-                    //     })
-
-                    //     setEvents(events.concat(groupEvents))
-                    // }
-                    renderEvents(data.groups)
-                }
-
-                setMyEvents(user.myEvents)
-
             }
             catch (err) {
                 console.log(err)
@@ -125,32 +106,35 @@ function Dashboard() {
 
     function renderEvents(groups) {
         if (groups.length > 0) {
-            let posts = [];
+            let postsArr = [];
             const groupPosts = groups.filter(group => group.posts.length > 0).map(group => group.posts)
             console.log(groupPosts)
 
             if (groupPosts.length > 0) {
-                posts = posts.concat(...groupPosts)
-                const groupEvents = posts.map(post => {
+                postsArr = postsArr.concat(...groupPosts)
+                const groupEvents = postsArr.map(post => {
                     const eventObj = {
                         title: post.eventTitle,
                         description: post.body,
                         start: post.release,
                         allDay: true
                     }
-
+                    
                     return eventObj;
                 })
-
+                
+                setPosts(postsArr)
                 setEvents(events.concat(groupEvents))
             }
         }
     }
 
     useEffect(() => {
-        API.updateMyEvents({ events: myEvents })
-        .then(({ data }) => console.log(data))
-        .catch(err => console.log(err))
+        if (loggedIn) {
+            API.updateMyEvents({ events: myEvents })
+                .then(({ data }) => console.log(data))
+                .catch(err => console.log(err))
+        }
     }, [myEvents])
 
     const handleOpen = () => {
@@ -238,89 +222,131 @@ function Dashboard() {
         setChosenDate({ ...chosenDate, allDay: event.target.checked })
     };
 
-    return (
-        <div className='demo-app'>
-            <div className='demo-app-calendar'>
-                <FullCalendar
-                    defaultView="dayGridMonth"
-                    navLinks="true"
-                    eventLimit="true"
-                    header={{
-                        left: 'prev,next today addEventButton',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                    }}
-                    customButtons={{
-                        addEventButton: {
-                            text: 'Add event',
-                            click: addCalendarEvent
-                        }
-                    }}
-                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-                    ref={calendarComponentRef}
-                    events={events.concat(myEvents)}
-                    dateClick={handleDateClick}
-                />
-            </div>
-            <div>
-                <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    className={classes.modal}
-                    open={open}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500,
-                    }}
-                >
-                    <Fade in={open}>
-                        <div className={classes.paper}>
-                            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-                                <Grid
-                                    container
-                                    direction="column"
-                                    justify="space-around"
-                                    alignItems="center"
-                                >
-                                    <TextField label="Event Title" variant="outlined" name="title" value={title} onChange={handleInputChange} required></TextField>
-                                    <TextField
-                                        id="outlined-multiline-static"
-                                        label="Description"
-                                        multiline
-                                        rows={4}
-                                        variant="outlined"
-                                        name="description"
-                                        value={description}
-                                        onChange={handleInputChange}
-                                    />
+    function renderTodaysEvents() {
+        const todaysEvents = posts.filter(post => moment().isSame(post.release, 'day'));
+        console.log(todaysEvents)
 
-                                    <FormGroup >
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={chosenDate.allDay}
-                                                    onChange={handleChange}
-                                                    name="allDay"
-                                                    color="primary"
-                                                />
-                                            }
-                                            label="All Day"
-                                        />
-                                    </FormGroup>
+        // return todaysEvents.map(event => <ListItem key={event.title + event.start}><ListItemText primary={event.title} /><PreviewBtn /></ListItem>)
+        return todaysEvents.map(event => <ListItem key={event._id}><ListItemText primary={event.eventTitle} /><PreviewBtn {...event} /></ListItem>)
+    }
 
-                                    <DateTimePicker {...chosenDate} dateLabel="Start Date" timeLabel="Start Time" handleDateChange={handleStartDateChange} />
-                                    <DateTimePicker {...chosenDate} dateLabel="End Date" timeLabel="End Time" handleDateChange={handleEndDateChange} />
-                                    <Button variant="contained" color="primary" type="submit">Save</Button>
-                                </Grid>
-                            </form>
-                        </div>
-                    </Fade>
-                </Modal>
-            </div>
-        </div>
-    );
+    // const displayDesc = mouseEnterInfo => {
+    function displayDesc(mouseEnterInfo) {
+        console.log(mouseEnterInfo)
+        // const SomeContent = React.forwardRef((props, ref) => <div {...props} ref={ref}>{mouseEnterInfo.el}</div>);
+        return (
+            <Tooltip title={mouseEnterInfo.event.extendedProps.description} interactive>
+                {mouseEnterInfo.el}
+            </Tooltip>
+        );
+    }
+
+
+    const renderDashboard = () => {
+        return (
+            <Grid container className='demo-app' spacing={2} justify="center">
+                <Grid item sm={3}>
+                    <Paper className={classes.paper} elevation={3}>
+                        <h1>Today's Schedule</h1>
+                        <hr />
+                        <List component="nav" aria-label="group names">
+                            {renderTodaysEvents()}
+                        </List>
+                    </Paper>
+
+                </Grid>
+                <Grid item sm={9}>
+                    <Paper className={classes.paper} elevation={3}>
+                        <FullCalendar
+                            defaultView="dayGridMonth"
+                            navLinks="true"
+                            eventLimit="true"
+                            header={{
+                                left: 'prev,next today addEventButton',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                            }}
+                            customButtons={{
+                                addEventButton: {
+                                    text: 'Add event',
+                                    click: addCalendarEvent
+                                }
+                            }}
+                            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+                            ref={calendarComponentRef}
+                            events={events.concat(myEvents)}
+                            dateClick={handleDateClick}
+                            eventMouseEnter={displayDesc}
+                        />
+                    </Paper>
+                </Grid>
+                <div>
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open}
+                        onClose={handleClose}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                            timeout: 500,
+                        }}
+                    >
+                        <Fade in={open}>
+                            <div className={classes.modalPaper}>
+                                <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                                    <Grid
+                                        container
+                                        direction="column"
+                                        justify="space-around"
+                                        alignItems="center"
+                                        spacing={2}
+                                    >
+                                        <Grid item>
+                                            <TextField label="Event Title" variant="outlined" name="title" value={title} onChange={handleInputChange} required></TextField>
+                                        </Grid>
+                                        <Grid item>
+                                            <TextField
+                                                id="outlined-multiline-static"
+                                                label="Description"
+                                                multiline
+                                                rows={4}
+                                                variant="outlined"
+                                                name="description"
+                                                value={description}
+                                                onChange={handleInputChange}
+                                            />
+                                        </Grid>
+
+                                        <FormGroup >
+                                            <FormControlLabel
+                                                control={
+                                                    <Switch
+                                                        checked={chosenDate.allDay}
+                                                        onChange={handleChange}
+                                                        name="allDay"
+                                                        color="primary"
+                                                    />
+                                                }
+                                                label="All Day"
+                                            />
+                                        </FormGroup>
+
+                                        <DateTimePicker {...chosenDate} dateLabel="Start Date" timeLabel="Start Time" handleDateChange={handleStartDateChange} />
+                                        <DateTimePicker {...chosenDate} dateLabel="End Date" timeLabel="End Time" handleDateChange={handleEndDateChange} />
+                                        <Button variant="contained" color="primary" type="submit">Save</Button>
+                                    </Grid>
+                                </form>
+                            </div>
+                        </Fade>
+                    </Modal>
+                </div>
+            </Grid>
+        );
+    }
+
+    return <div>{loggedIn ? renderDashboard() : <NotAuthorized />}</div>
 }
 
 export default Dashboard;
