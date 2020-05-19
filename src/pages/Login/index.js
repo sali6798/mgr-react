@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import API from "../../utils/API"
 import "./style.css"
 import { Visibility, VisibilityOff } from '@material-ui/icons';
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 function Login() {
 
     const classes = useStyles();
-
+    const history = useHistory();
     const [values, setValues] = React.useState({
         email: "",
         password: "",
@@ -62,10 +63,13 @@ function Login() {
             username: values.email,
             password: values.password
         }
-        console.log(user)
 
         API.login(user)
-        .then(res => console.log(res))
+        .then(({ data }) => {
+            if (data) {
+                history.push("/dashboard");
+            }
+        })
         .catch(err => console.log(err))
     }
 
@@ -74,7 +78,7 @@ function Login() {
             <Grid item xs={3} />
             <Grid item xs={6}>
                 <Paper className={classes.paper} elevation={3} maxwidth="sm">
-                    <form className={classes.root} noValidate autoComplete="off">
+                    <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmitLogin}>
                         <h3>Login</h3>
                         <div>
                             <TextField
@@ -86,7 +90,7 @@ function Login() {
                                 variant="outlined" />
                         </div>
                         <div>
-                            <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                            <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined" >
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
@@ -111,15 +115,9 @@ function Login() {
                                 />
                             </FormControl>
                         </div>
-                        <br />
-                        <div>
-                            <Button className={classes.margin} variant="contained" color="primary">
-                                Go Back
-                </Button>
-                            <Button className={classes.margin} variant="contained" color="primary" onClick={handleSubmitLogin}>
-                                Submit
-                </Button>
-                        </div>
+                            <Button className={classes.margin} variant="contained" color="primary" type="submit" >
+                                Log In
+                            </Button>
                     </form>
                 </Paper>
             </Grid>
