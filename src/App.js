@@ -16,12 +16,11 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path={"/dashboard"} component={Dashboard} />
-          <Route exact path={["/"]} component={Landing} /> 
+          <Route exact path={["/", "/logout"]} component={Landing} /> 
           <Route exact path={"/test"} component={Test} /> 
           <Route exact path="/createaccount" component={CreateAccount} /> 
           <Route exact path="/manage/:id" component={ManageGroup} /> 
-          <Route exact path="/login" component={Login} /> 
-          <Route exact path="/logout" component={Landing} /> 
+          <Route exact path="/login" component={Login} />
           <Route exact path="/groups" component={GroupView} /> 
           
         </Switch>
