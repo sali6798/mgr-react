@@ -64,7 +64,7 @@ function CreateAccount() {
     const handleSubmit = event => {
         event.preventDefault();
         const newUser = {
-            name: values.firstName + values.lastName,
+            name: `${values.firstName} ${values.lastName}`,
             email: values.email,
             password: values.password,
             isManager: values.isManager
