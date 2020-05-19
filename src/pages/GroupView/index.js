@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Grid, Button, List, ListItem, TextField } from '@material-ui/core';
 import "./style.css";
+import NotAuthorized from "../../pages/NotAuthorized"
 import API from "../../utils/API";
 import GroupList from "../../components/GroupList"
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,12 +40,17 @@ function GroupView() {
     const [addUser, setAddUser] = useState(false);
     const [name, setName] = useState("");
     const [deleteGroup, setDeleteGroup] = useState(false);
+    const [manager, setManager] = useState(false);
 
     useEffect(() => {
-        // API.readSessions()
-        // .then({ _id } => )
-        loadGroups();
-
+        API.readSessions()
+            .then(({ data }) => {
+                setManager(data.isManager);
+                if (data.isManager === true) {
+                    loadGroups();
+                }
+            })
+            .catch(err => console.log(err))
     }, [])
 
     const loadGroups = () => {
@@ -55,7 +62,7 @@ function GroupView() {
     const handleAddClick = () => {
         setAddUser(!addUser)
     }
-    
+
     const handleRemoveClick = () => {
         setDeleteGroup(!deleteGroup)
     }
@@ -66,16 +73,16 @@ function GroupView() {
 
     const handleSubmit = () => {
         API.createGroup({ name: name })
-        .then(() => {
-            setAddUser(!addUser);
-            loadGroups();
-            setName("");
-        })
-        .catch(err => console.log(err))
+            .then(() => {
+                setAddUser(!addUser);
+                loadGroups();
+                setName("");
+            })
+            .catch(err => console.log(err))
     }
 
-    return (
-        <div>
+    function renderGroups() {
+        return (
             <Grid className={classes.grid} container spacing={1}>
 
                 <Grid item xs={3} />
@@ -100,9 +107,10 @@ function GroupView() {
                 </Grid>
                 <Grid item xs={3} />
             </Grid>
-        </div>
+        );
+    }
 
-    )
+    return <div>{manager === true ? renderGroups() : <NotAuthorized />}</div>
 }
 
 export default GroupView;
