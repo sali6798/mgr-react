@@ -41,9 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard() {
     const calendarComponentRef = React.createRef()
-    const [myEvents, setMyEvents] = useState([
-        { title: 'Event Now', start: new Date() }
-    ])
+    const [myEvents, setMyEvents] = useState([])
 
     const [events, setEvents] = useState([])
 
@@ -60,38 +58,100 @@ function Dashboard() {
     const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
-        // readsessions see if manager find groups theyre manager of
-        // else artist get their group info
-        API.getUserGroupInfo("5ec13a694458c657cc23d9f5")
-        .then(({ data }) => {
-            console.log(data)
-            let posts = [];
+        async function init() {
+            try {
+                const { data: user } = await API.readSessions();
+                console.log(user)
 
-            const groupPosts = data.groups.filter(group => group.posts.length > 0).map(group => group.posts)
-            console.log(groupPosts)
+                if (user.isManager) {
+                    const { data: groups } = await API.getGroups();
+                    console.log(groups)
 
-            console.log(posts.concat(...groupPosts))
-            posts = posts.concat(...groupPosts)
-            
+                    // if (groups.length > 0) {
+                    //     let posts = [];
+                    //     const groupPosts = groups.filter(group => group.posts.length > 0).map(group => group.posts)
+                    //     console.log(groupPosts)
 
-            const groupEvents = posts.map(post => {
-                const eventObj = {
-                    title: post.eventTitle,
-                    description: post.body,
-                    start: post.release,
-                    allDay: true
+                    //     if (groupPosts.length > 0) {
+                    //         posts = posts.concat(...groupPosts)
+                    //         const groupEvents = posts.map(post => {
+                    //             const eventObj = {
+                    //                 title: post.eventTitle,
+                    //                 description: post.body,
+                    //                 start: post.release,
+                    //                 allDay: true
+                    //             }
+
+                    //             return eventObj;
+                    //         })
+
+                    //         setEvents(events.concat(groupEvents))
+                    //     }
+                    // }
+                    renderEvents(groups);
+                }
+                else {
+                    const { data } = await API.getUserGroupInfo(user._id);
+                    // let posts = [];
+                    // const groupPosts = data.groups.filter(group => group.posts.length > 0).map(group => group.posts)
+                    // if (groupPosts.length > 0) {
+                    //     posts = posts.concat(...groupPosts)
+                    //     const groupEvents = posts.map(post => {
+                    //         const eventObj = {
+                    //             title: post.eventTitle,
+                    //             description: post.body,
+                    //             start: post.release,
+                    //             allDay: true
+                    //         }
+
+                    //         return eventObj;
+                    //     })
+
+                    //     setEvents(events.concat(groupEvents))
+                    // }
+                    renderEvents(data.groups)
                 }
 
-                return eventObj;
-            })
+                setMyEvents(user.myEvents)
 
-            console.log(groupEvents)
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
 
-            setEvents(events.concat(groupEvents))
-
-        })
-        .catch(err => console.log(err))
+        init();
     }, [])
+
+    function renderEvents(groups) {
+        if (groups.length > 0) {
+            let posts = [];
+            const groupPosts = groups.filter(group => group.posts.length > 0).map(group => group.posts)
+            console.log(groupPosts)
+
+            if (groupPosts.length > 0) {
+                posts = posts.concat(...groupPosts)
+                const groupEvents = posts.map(post => {
+                    const eventObj = {
+                        title: post.eventTitle,
+                        description: post.body,
+                        start: post.release,
+                        allDay: true
+                    }
+
+                    return eventObj;
+                })
+
+                setEvents(events.concat(groupEvents))
+            }
+        }
+    }
+
+    useEffect(() => {
+        API.updateMyEvents({ events: myEvents })
+        .then(({ data }) => console.log(data))
+        .catch(err => console.log(err))
+    }, [myEvents])
 
     const handleOpen = () => {
         setOpen(true);
@@ -155,7 +215,9 @@ function Dashboard() {
             description: description,
             start: chosenDate.startDate,
             end: calculateEndDate(),
-            allDay: chosenDate.allDay
+            allDay: chosenDate.allDay,
+            backgroundColor: "darkorange",
+            borderColor: "darkorange"
         }));
 
         handleClose();
