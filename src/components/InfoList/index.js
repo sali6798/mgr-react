@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment"
 import { IconButton, List, ListItem, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import API from "../../utils/API"
 
 function InfoList(props) {
-    function displayList() {
+    const [count, setCount] = useState(0);
+
+    const displayList = () => {
 
         const handleClick = id => {
             API.removeGroupArtist({
@@ -26,11 +28,16 @@ function InfoList(props) {
             );
         }
 
+        const getCount = () => {
+            setCount(count + 1);
+            return count;
+        }
+
         return (
             <List>
                 {props.array.map(element => {
                     return (
-                        <ListItem key={element._id}>
+                        <ListItem key={element._id ? element._id : getCount}>
                             <ListItemText
                                 primary={props.listType ? element.name : element.eventTitle}
                                 secondary={props.listType ? element.email : `${moment(element.release).format("dddd, LL")} - ${element.status}`}
@@ -43,7 +50,7 @@ function InfoList(props) {
         );
     }
 
-    function displayError() {
+    const displayError = () => {
         switch (props.status) {
             case "ready":
                 return <h3>Nothing Scheduled Today</h3>;
