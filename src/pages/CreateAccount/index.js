@@ -65,22 +65,31 @@ function CreateAccount() {
         event.preventDefault();
     };
 
-    const handleSubmit = event => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const newUser = {
-            name: `${values.firstName} ${values.lastName}`,
-            email: values.email,
-            password: values.password,
-            isManager: values.isManager
-        }
 
-        API.signup(newUser)
-            .then(({ data }) => {
-                console.log(data)
-                history.push("/dashboard")
+        try {
+            const newUser = {
+                name: `${values.firstName} ${values.lastName}`,
+                email: values.email,
+                password: values.password,
+                isManager: values.isManager
+            }
+
+            const { data: newUserData } = await API.signup(newUser);
+
+            const { data: loggedInUser } = await API.login({
+                username: newUserData.email,
+                password: newUserData.password
             })
-            .catch(err => console.log(err))
 
+            if (loggedInUser) {
+                history.push("/dashboard");
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     function validate(event, field) {
@@ -99,102 +108,116 @@ function CreateAccount() {
     return (
         <Grid className={classes.grid} container spacing={1}>
             <Grid item xs={3} />
-            <Grid item xs={6}>
+            <Grid item xs={6} >
                 <Paper className={classes.paper} elevation={3} maxwidth="sm">
                     <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
                         <h3>Create Your Account</h3>
-                        <div>
-                            <TextField
-                                required
-                                label="First Name"
-                                value={values.firstName}
-                                onChange={handleChange('firstName')}
-                                variant="outlined" />
-                            <TextField
-                                required
-                                label="Last Name"
-                                value={values.lastName}
-                                onChange={handleChange('lastName')}
-                                variant="outlined" />
-                        </div>
-                        <div>
-                            <TextField
-                                required
-                                label="Email"
-                                value={values.email}
-                                onChange={handleChange('email')}
-                                variant="outlined" />
-                        </div>
-                        <div>
-                            <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-                                <InputLabel htmlFor="password">Password</InputLabel>
-                                <OutlinedInput
-                                    id="password"
-                                    label="Password"
-                                    type={values.showPassword ? 'text' : 'password'}
-                                    value={values.password}
-                                    onChange={handleChange('password')}
-                                    error={values.password.length < 8}
-                                    aria-describedby="password-error-length"
-                                    onBlur={(event) => console.log(event.target.value)}
+                        {/* <Grid container direction="column" spacing={1} > */}
+                            <Grid item>
+                                <TextField
+                                    required
+                                    label="First Name"
+                                    value={values.firstName}
+                                    onChange={handleChange('firstName')}
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    required
+                                    label="Last Name"
+                                    value={values.lastName}
+                                    onChange={handleChange('lastName')}
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            {/* <Grid item>
 
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
-                                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
+                            </Grid> */}
+                            <Grid item>
+                                <TextField
+                                    required
+                                    label="Email"
+                                    value={values.email}
+                                    onChange={handleChange('email')}
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item>
+                                <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                                    <InputLabel htmlFor="password">Password</InputLabel>
+                                    <OutlinedInput
+                                        id="password"
+                                        label="Password"
+                                        type={values.showPassword ? 'text' : 'password'}
+                                        value={values.password}
+                                        onChange={handleChange('password')}
+                                        error={values.password.length < 8}
+                                        aria-describedby="password-error-length"
+                                        required
+                                        onBlur={(event) => console.log(event.target.value)}
+
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        labelWidth={70}
+                                    />
+                                    <FormHelperText id="password-error-length">Password must be more than 8 characters</FormHelperText>
+                                </FormControl>
+                                <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                                    <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
+                                    <OutlinedInput
+                                        id="confirmPassword"
+                                        label="Confirm Password"
+                                        type={values.showPassword ? 'text' : 'password'}
+                                        value={values.confirmPassword}
+                                        onChange={handleChange('confirmPassword')}
+                                        minLength="8"
+                                        required
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        labelWidth={70}
+                                    />
+                                </FormControl>
+                            </Grid>
+                            {/* <Grid item>
+                            </Grid> */}
+                            <Grid item>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={values.isManager}
+                                            onChange={handleSwitch}
+                                            name="manager"
+                                            color="primary"
+                                        />
                                     }
-                                    labelWidth={70}
+                                    label="Manager Account"
                                 />
-                                <FormHelperText id="password-error-length">Password must be more than 8 characters</FormHelperText>
-                            </FormControl>
-                            <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-                                <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
-                                <OutlinedInput
-                                    id="confirmPassword"
-                                    label="Confirm Password"
-                                    type={values.showPassword ? 'text' : 'password'}
-                                    value={values.confirmPassword}
-                                    onChange={handleChange('confirmPassword')}
-                                    minLength="8"
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
-                                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    labelWidth={70}
-                                />
-                            </FormControl>
-                        </div>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={values.isManager}
-                                    onChange={handleSwitch}
-                                    name="manager"
-                                    color="primary"
-                                />
-                            }
-                            label="Manager Account"
-                        />
-                        <div>
-                            <Button className={classes.margin} variant="contained" color="primary" type="submit">
-                                Create Account
+                            </Grid>
+                            <Grid item>
+                                <Button className={classes.margin} variant="contained" color="primary" type="submit">
+                                    Create Account
                             </Button>
-                        </div>
+                            </Grid>
+                        {/* </Grid> */}
                     </form>
                 </Paper>
             </Grid>

@@ -65,6 +65,8 @@ function Dashboard() {
         endDate: new Date()
     })
 
+    // const inputEl = useRef(null);
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
@@ -232,11 +234,12 @@ function Dashboard() {
 
     // const displayDesc = mouseEnterInfo => {
     function displayDesc(mouseEnterInfo) {
-        console.log(mouseEnterInfo)
+        // console.log(mouseEnterInfo)
         // const SomeContent = React.forwardRef((props, ref) => <div {...props} ref={ref}>{mouseEnterInfo.el}</div>);
         return (
             <Tooltip title={mouseEnterInfo.event.extendedProps.description} interactive>
                 {mouseEnterInfo.el}
+                {/* {inputEl} */}
             </Tooltip>
         );
     }
@@ -276,6 +279,7 @@ function Dashboard() {
                             ref={calendarComponentRef}
                             events={events.concat(myEvents)}
                             dateClick={handleDateClick}
+                            // ref={inputEl}
                             eventMouseEnter={displayDesc}
                         />
                     </Paper>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "./style.css"
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,12 +36,12 @@ function Navbar() {
     const classes = useStyles();
     const [value, setValue] = useState(0);
     // const location = useLocation();
-    let isManager;
+    let isManager = useRef(null);
 
     useEffect(() => {
         API.readSessions()
             .then(({ data }) => {
-                isManager = data.isManager;
+                isManager.current = data.isManager;
                 console.log(isManager)
             })
             .catch(err => console.log(err))
@@ -65,6 +65,9 @@ function Navbar() {
                 break;
             case "/login":
                 setValue(4);
+                break;
+            case "/myaccount":
+                setValue(5);
                 break;
             case "/logout":
                 API.logout()
@@ -123,7 +126,7 @@ function Navbar() {
             <AppBar position="static">
                 <h1 className={classes.title}>MGR</h1>
                 <Tabs
-                    variant="fullwidth"
+                    variant="fullWidth"
                     value={value}
                     onChange={handleChange}
                     aria-label="nav tabs example"
@@ -135,6 +138,7 @@ function Navbar() {
                     <LinkTab label="Groups" href="/groups" />
                     <LinkTab label="Create Account" href="/createaccount" />
                     <LinkTab label="Login" href="/login" />
+                    <LinkTab label="My Account" href="/myaccount" />
                     <LinkTab label="Logout" href="/logout" />
                 </Tabs>
             </AppBar>
