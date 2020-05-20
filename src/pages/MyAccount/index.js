@@ -94,6 +94,14 @@ function MyAccount() {
 
     }
 
+    const handleFBlogin = () => {      
+        window.location.href = "http://localhost:8080/auth/facebook"
+    }
+
+    const handleTWlogin = () => {
+        window.location.href = "http://localhost:8080/auth/twitter"
+    }
+
     return (
         <Grid className={classes.grid} container spacing={1}>
             <Grid item xs={3} />
@@ -179,10 +187,10 @@ function MyAccount() {
                             </FormControl>
                         </div>
                         <div>
-                            <TwitterButton text="Link" />
+                            <TwitterButton text="Link" handleClick={handleTWlogin}/>
                         </div>
                         <div>
-                            <FacebookButton text="Link" />
+                            <FacebookButton text="Link" handleClick={handleFBlogin}/>
                         </div>
                         <div>
                             {/* check if they have id from sessions
