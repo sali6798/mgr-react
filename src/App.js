@@ -8,6 +8,7 @@ import Landing from "./pages/Landing"
 import GroupView from "./pages/GroupView"
 import ManageGroup from "./pages/ManageGroup"
 import Test from "./pages/Test"
+import MyAccount from "./pages/MyAccount"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route exact path="/manage/:id" component={ManageGroup} /> 
           <Route exact path="/login" component={Login} />
           <Route exact path="/groups" component={GroupView} /> 
+          <Route exact path="/myaccount" component={MyAccount} /> 
           
         </Switch>
       </div>
