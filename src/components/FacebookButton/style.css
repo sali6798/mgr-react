@@ -1,0 +1,9 @@
+.FacebookButton {
+    background-color: #4267B2 !important;
+    color: white !important;        
+}
+
+.FacebookButton:hover {
+    background-color: #36538f !important;
+    box-shadow: none !important;
+}
