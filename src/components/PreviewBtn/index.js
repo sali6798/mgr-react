@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Modal, Backdrop, Fade, Grid, TextField, GridList, GridListTile } from "@material-ui/core"
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
+import FacebookButton from "../FacebookButton";
+import TwitterButton from "../TwitterButton";
 
 const useStyles = makeStyles((theme) => ({
     typography: {
@@ -23,22 +23,6 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2, 4, 3),
         borderRadius: "5px",
         width: "50%"
-    },
-    twitterBtn: {
-        backgroundColor: "#1DA1F2;",
-        color: "white",
-        '&:hover': {
-            backgroundColor: '#1d90d8',
-            boxShadow: 'none',
-        }
-    },
-    facebookBtn: {
-        backgroundColor: "#4267B2;",
-        color: "white",
-        '&:hover': {
-            backgroundColor: '#36538f',
-            boxShadow: 'none',
-        }
     },
     gridList: {
         flexWrap: 'nowrap',
@@ -133,22 +117,10 @@ export default function PreviewBtn(props) {
                                 />
                             </Grid>
                             <Grid item>
-                                <Button
-                                    variant="contained"
-                                    className={classes.facebookBtn}
-                                    startIcon={<FacebookIcon />}
-                                >
-                                    Post
-                                </Button>
+                                <FacebookButton text="Post" />
                             </Grid>
                             <Grid item>
-                                <Button
-                                    variant="contained"
-                                    className={classes.twitterBtn}
-                                    startIcon={<TwitterIcon />}
-                                >
-                                    Post
-                                </Button>
+                                <TwitterButton text="Post" />
                             </Grid>
                         </Grid>
                     </div>
