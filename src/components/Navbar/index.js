@@ -1,8 +1,9 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "./style.css"
 import { makeStyles } from '@material-ui/core/styles';
 import { Tabs, Tab, AppBar } from "@material-ui/core"
+import API from "../../utils/API"
 // import Paper from '@material-ui/core/Paper';
 // import Tabs from '@material-ui/core/Tabs';
 // import LinkTab from '@material-ui/core/Tab';
@@ -35,6 +36,16 @@ function Navbar() {
     const classes = useStyles();
     const [value, setValue] = useState(0);
     // const location = useLocation();
+    let isManager = useRef(null);
+
+    useEffect(() => {
+        API.readSessions()
+            .then(({ data }) => {
+                isManager.current = data.isManager;
+                console.log(isManager)
+            })
+            .catch(err => console.log(err))
+    }, [])
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -42,7 +53,7 @@ function Navbar() {
 
     useEffect(() => {
         // console.log(location.pathname)
-        switch(location.pathname) {
+        switch (location.pathname) {
             case "/dashboard":
                 setValue(1);
                 break;
@@ -55,18 +66,18 @@ function Navbar() {
             case "/login":
                 setValue(4);
                 break;
+            case "/myaccount":
+                setValue(5);
+                break;
+            case "/logout":
+                API.logout()
+                    .catch(err => console.log(err))
+                break;
             default:
                 setValue(0);
                 break;
         }
     }, [location])
-
-    // function a11yProps(index) {
-    //     return {
-    //         id: `nav-tab-${index}`,
-    //         'aria-controls': `nav-tabpanel-${index}`,
-    //     };
-    // }
 
     function LinkTab(props) {
         return (
@@ -76,6 +87,37 @@ function Navbar() {
             />
         );
     }
+
+    // function displayTabs() {
+    //     if (isManager === true) {
+    //         return (
+    //             <div>
+    //                 <LinkTab label="Home" href="/" />
+    //                 <LinkTab label="Dashboard" href="/dashboard" />
+    //                 <LinkTab label="Groups" href="/groups" />
+    //                 <LinkTab label="Logout" href="/logout" />
+    //             </div>
+    //         );
+    //     }
+    //     else if (isManager === false) {
+    //         return (
+    //             <div>
+    //                 <LinkTab label="Home" href="/" />
+    //                 <LinkTab label="Dashboard" href="/dashboard" />
+    //                 <LinkTab label="Logout" href="/logout" />
+    //             </div>
+    //         );
+    //     }
+
+    //     return (
+    //         <div>
+    //             <LinkTab label="Home" href="/" />
+    //             <LinkTab label="Create Account" href="/createaccount" />
+    //             <LinkTab label="Login" href="/login" />
+    //         </div>
+    //     );
+
+    // }
 
 
 
@@ -89,14 +131,15 @@ function Navbar() {
                     onChange={handleChange}
                     aria-label="nav tabs example"
                     centered
-                    // indicatorColor="primary"
-                    // textColor="primary"
                 >
-                    <LinkTab label="Home" href="/"  />
-                    <LinkTab label="Dashboard" href="/dashboard"  />
-                    <LinkTab label="Groups" href="/groups"  />
-                    <LinkTab label="Create Account" href="/createaccount"  />
-                    <LinkTab label="Login" href="/login"  />
+                    {/* {displayTabs()} */}
+                    <LinkTab label="Home" href="/" />
+                    <LinkTab label="Dashboard" href="/dashboard" />
+                    <LinkTab label="Groups" href="/groups" />
+                    <LinkTab label="Create Account" href="/createaccount" />
+                    <LinkTab label="Login" href="/login" />
+                    <LinkTab label="My Account" href="/myaccount" />
+                    <LinkTab label="Logout" href="/logout" />
                 </Tabs>
             </AppBar>
         </div>
@@ -107,7 +150,7 @@ function Navbar() {
         //         variant="fullWidth"
         //         onChange={handleChange}
         //         indicatorColor="primary"
-        //         textColor="primary"
+
         //         centered
         //     >
         //         <LinkTab label="Home" href="/" />

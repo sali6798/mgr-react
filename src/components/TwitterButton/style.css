@@ -1,0 +1,9 @@
+.TwitterButton {
+    background-color: #1DA1F2 !important;
+    color: white !important;
+}
+
+.TwitterButton:hover {
+    background-color: #1d90d8 !important;
+    box-shadow: none !important;
+}

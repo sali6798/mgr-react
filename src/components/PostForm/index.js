@@ -111,7 +111,7 @@ function PostForm(props) {
             .then(({ data }) => console.log(data))
             .then(() => {
                 props.handleClose();
-                props.loadGroup();
+                props.loadPosts(newPost);
             })
             .catch(err => console.log(err))
 
