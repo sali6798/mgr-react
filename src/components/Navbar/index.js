@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, Link } from "react-router-dom";
 import "./style.css"
 import { makeStyles } from '@material-ui/core/styles';
-import { Tabs, Tab, AppBar, Box, Typography } from "@material-ui/core"
+import { Tabs, Tab, AppBar } from "@material-ui/core"
 import API from "../../utils/API"
 // import Paper from '@material-ui/core/Paper';
 // import Tabs from '@material-ui/core/Tabs';
@@ -12,11 +12,16 @@ import API from "../../utils/API"
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
+        background: '#ffffff',
     },
     title: {
         textAlign: 'center',
-    }
+        fontFamily: 'Orbitron',
+        fontWeight: 700,
+},
+tab: {
+    fontFamily: "Orbitron",
+}
 }));
 
 // function LinkTab(props) {
@@ -109,7 +114,7 @@ function Navbar() {
         setValue(newValue);
     };
 
-   
+
 
 
 
@@ -154,7 +159,7 @@ function Navbar() {
     // }
 
 
-    if (isManager --- true) {
+    if (isManager-- - true) {
         return (
             <div className={classes.root}>
                 <AppBar position="static">
@@ -167,16 +172,16 @@ function Navbar() {
                         centered
                     >
                         {/* {displayTabs()} */}
-                        <Tab label="Dashboard" component={Link} to="/dashboard"/>
-                        <Tab label="Groups" component={Link} to="/groups"/>
-                        <Tab label="My Account" component={Link} to="/myaccount"/>
-                        <Tab label="Logout" component={Link} to="/login"/>
+                        <Tab className="tab" label="Dashboard" component={Link} to="/dashboard" />
+                        <Tab className="tab" label="Groups" component={Link} to="/groups" />
+                        <Tab className="tab" label="My Account" component={Link} to="/myaccount" />
+                        <Tab className="tab" label="Logout" component={Link} to="/login" />
                     </Tabs>
                 </AppBar>
-    
-    
+
+
             </div>
-    
+
         );
     } else if (isManager === false) {
         return (
@@ -191,15 +196,15 @@ function Navbar() {
                         centered
                     >
                         {/* {displayTabs()} */}
-                        <Tab label="Dashboard" component={Link} to="/dashboard"/>
-                        <Tab label="My Account" component={Link} to="/myaccount"/>
-                        <Tab label="Logout" component={Link} to="/login"/>
+                        <Tab className="tab" label="Dashboard" component={Link} to="/dashboard" />
+                        <Tab className="tab" label="My Account" component={Link} to="/myaccount" />
+                        <Tab className="tab" label="Logout" component={Link} to="/login" />
                     </Tabs>
                 </AppBar>
-    
-    
+
+
             </div>
-    
+
         );
     } else {
         return (
@@ -214,15 +219,15 @@ function Navbar() {
                         centered
                     >
                         {/* {displayTabs()} */}
-                        <Tab label="Home" component={Link} to="/"/>
-                        <Tab label="Create Account" component={Link} to="/createaccount"/>
-                        <Tab label="Login" component={Link} to="/login"/>
+                        <Tab className="tab" label="Home" component={Link} to="/" />
+                        <Tab className="tab" label="Create Account" component={Link} to="/createaccount" />
+                        <Tab className="tab" label="Login" component={Link} to="/login" />
                     </Tabs>
                 </AppBar>
-    
-    
+
+
             </div>
-    
+
         );
     }
 
