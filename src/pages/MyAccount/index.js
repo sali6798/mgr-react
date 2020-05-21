@@ -45,19 +45,41 @@ function MyAccount() {
         confirmPassword: "",
         isManager: false,
         showPassword: false,
-        // facebookPages: []
+        facebookPages: []
     })
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState([]);
+    
 
     useEffect(() => {
         API.readSessions()
             .then(({ data }) => {
-                if (data) {
-                    setUser(data);
-                }
+                console.log(data);
+
+                let cutName = data.name.split(" ");
+                setValues({
+                    firstName: cutName[0],
+                    lastName: cutName[1],
+                    email: data.email,
+                    password: data.password,
+                    confirmPassword: data.password,
+                    isManager: data.isManager,
+                    showPassword: false
+                })
             })
             .catch(err => console.log(err));
+
     }, [])
+
+    // UPDATE UserFanpage   //***************************************************************************** 
+    useEffect(() => {
+        API.getPagesinfo()
+            .then(({ data }) => {
+                //setValues({ ...values, facebookPages: data })
+                console.log(data)
+                setUser(data);
+            })
+    }, [])
+
 
     const error = 5 === 0;
     // const error = values.facebookPages.length === 0;
@@ -94,7 +116,7 @@ function MyAccount() {
 
     }
 
-    const handleFBlogin = () => {      
+    const handleFBlogin = () => {
         window.location.href = "http://localhost:8080/auth/facebook"
     }
 
@@ -187,12 +209,13 @@ function MyAccount() {
                             </FormControl>
                         </div>
                         <div>
-                            <TwitterButton text="Link" handleClick={handleTWlogin}/>
+                            <TwitterButton text="Link" handleClick={handleTWlogin} />
                         </div>
                         <div>
-                            <FacebookButton text="Link" handleClick={handleFBlogin}/>
+                            <FacebookButton text="Link" handleClick={handleFBlogin} />
                         </div>
                         <div>
+
                             {/* check if they have id from sessions
                                 check if they have facebook pages
                                 then render below and map FormControlLabel
@@ -200,21 +223,17 @@ function MyAccount() {
                                 comment out error variable near the top of the page, implement however
                                 https://material-ui.com/components/checkboxes/
                             */}
+
                             <FormControl required error={error} component="fieldset">
                                 <FormLabel component="legend">Pick Pages To Post To</FormLabel>
-                                <FormGroup>
-                                    <FormControlLabel
-                                        control={<Checkbox checked={false} onChange={handleChange} name="gilad" />}
-                                        label="Gilad Gray"
-                                    />
-                                    <FormControlLabel
-                                        control={<Checkbox checked={false} onChange={handleChange} name="jason" />}
-                                        label="Jason Killian"
-                                    />
-                                    <FormControlLabel
-                                        control={<Checkbox checked={false} onChange={handleChange} name="antoine" />}
-                                        label="Antoine Llorca"
-                                    />
+
+                                <FormGroup>         
+                                    {/* RENDER PAGE NAME  */}
+                                    {user.map((item) => (
+                                        <FormControlLabel key={item.id}
+                                            control={<Checkbox checked={false} onChange={handleChange} name={item.name} />}
+                                            label={item.name} />))}
+
                                 </FormGroup>
                                 <FormHelperText>Must Pick At Least One!</FormHelperText>
                             </FormControl>
