@@ -5,7 +5,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import API from "../../utils/API"
 
 function InfoList(props) {
-    const [count, setCount] = useState(0);
+    const count = Math.floor(Math.random() * 1000);
 
     const displayList = () => {
 
@@ -14,8 +14,8 @@ function InfoList(props) {
                 groupId: props.groupId,
                 id: id
             })
-            .then(() => props.loadArtists())
-            .catch(err => console.log(err))
+                .then(() => props.loadArtists())
+                .catch(err => console.log(err))
         }
 
         const displayButton = id => {
@@ -28,24 +28,32 @@ function InfoList(props) {
             );
         }
 
-        const getCount = () => {
-            setCount(count + 1);
-            return count;
+        const renderArtists = element => {
+            return (
+                <ListItem key={element._id ? element._id : count}>
+                    <ListItemText
+                        primary={element.name}
+                        secondary={element.email}
+                    />
+                    {props.delete ? displayButton(element._id) : ""}
+                </ListItem>
+            );
+        }
+
+        const renderEvents = element => {
+            return (
+                <ListItem key={element._id ? element._id : count} button component="a" onClick={props.handleEdit}>
+                    <ListItemText
+                        primary={element.eventTitle}
+                        secondary={`${moment(element.release).format("dddd, LL")}`}
+                    />
+                </ListItem>
+            );
         }
 
         return (
             <List>
-                {props.array.map(element => {
-                    return (
-                        <ListItem key={element._id ? element._id : getCount}>
-                            <ListItemText
-                                primary={props.listType ? element.name : element.eventTitle}
-                                secondary={props.listType ? element.email : `${moment(element.release).format("dddd, LL")} - ${element.status}`}
-                            />
-                            {props.delete ? displayButton(element._id) : ""}
-                        </ListItem>
-                    );
-                })}
+                {props.array.map(element => props.listType ? renderArtists(element) : renderEvents(element))}
             </List>
         );
     }

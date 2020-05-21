@@ -87,6 +87,10 @@ function ManageGroup() {
 
     };
 
+    const handleEdit = () => {
+        setOpen(true);
+    }
+
     const handleClose = () => {
         if (addArtistOpen) {
             setAddArtistOpen(false);
@@ -136,14 +140,14 @@ function ManageGroup() {
                             <Grid item>
                                 <Button className={classes.margin} onClick={handleOpen} variant="contained" color="primary">
                                     Create Post +
-                            </Button>
+                                </Button>
                             </Grid>
                             <Grid item>
                                 <Paper className={classes.paper} elevation={3}>
                                     <h1>Today's Schedule</h1>
                                     <hr />
                                     {/* {group.posts ? <InfoList status="ready" array={group.posts.filter(post => post.status === "ready")} /> : <h3>Nothing Scheduled Today</h3>} */}
-                                    {posts ? <InfoList status="ready" array={posts.filter(post => post.status === "ready")} /> : <h3>Nothing Scheduled Today</h3>}
+                                    {posts ? <InfoList status="ready" array={posts.filter(post => post.status === "ready")} handleEdit={handleEdit} /> : <h3>Nothing Scheduled Today</h3>}
                                 </Paper>
                             </Grid>
                             <Grid item>
@@ -151,7 +155,7 @@ function ManageGroup() {
                                     <h1>Drafts</h1>
                                     <hr />
                                     {/* {group.posts ? <InfoList status="draft" array={group.posts.filter(post => post.status === "draft")} /> : <h3>No Drafts</h3>} */}
-                                    {posts ? <InfoList status="draft" array={posts.filter(post => post.status === "draft")} /> : <h3>No Drafts</h3>}
+                                    {posts ? <InfoList status="draft" array={posts.filter(post => post.status === "draft")} handleEdit={handleEdit} /> : <h3>No Drafts</h3>}
                                 </Paper>
                             </Grid>
                             <Grid item>
@@ -159,7 +163,7 @@ function ManageGroup() {
                                     <h1>Scheduled Later</h1>
                                     <hr />
                                     {/* {group.posts ? <InfoList status="later" array={group.posts.filter(post => post.status === "later")} /> : <h3>Nothing Scheduled</h3>} */}
-                                    {posts ? <InfoList status="later" array={posts.filter(post => post.status === "later")} /> : <h3>Nothing Scheduled</h3>}
+                                    {posts ? <InfoList status="later" array={posts.filter(post => post.status === "later")} handleEdit={handleEdit} /> : <h3>Nothing Scheduled</h3>}
                                 </Paper>
                             </Grid>
                         </Grid>
