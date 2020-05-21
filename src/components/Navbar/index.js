@@ -12,7 +12,8 @@ import API from "../../utils/API"
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        background: '#ffffff',
+        backgroundColor: "#861657 !important",
+        backgroundImage: "linear-gradient(326deg, #861657 0%, #ffa69e 74%) !important",
     },
     title: {
         textAlign: 'center',
