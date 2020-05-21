@@ -23,7 +23,7 @@ function PostForm(props) {
     // The first commit of Material-UI
 
     const [releaseStatus, setReleaseStatus] = useState("draft");
-    const [imgPath, setImgPath] = useState([]);
+    const [imgPath, setImgPath] = useState({});
     const [uploads, setUploads] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [title, setTitle] = useState("");
@@ -38,27 +38,36 @@ function PostForm(props) {
         setReleaseStatus(event.target.value);
     }
 
-    const uploadIMG = async () => {
-        // make object
-        const data = new FormData();
-        data.append("file", imgPath);         // GET Value from state >> upload
+    function isEmpty(obj) { 
+        for (var x in obj) { return false; }
+        return true;
+     }
 
-        data.append("upload_preset", "udzc5qvv");
-        // upload file
-        const res = await fetch(
-            "https://api.cloudinary.com/v1_1/mgr/image/upload",
-            {
-                method: "POST",
-                body: data,
-            }
-        );
-        const file = await res.json();           // URL Link to picture
-        // console.log(file)
-        setUploads(uploads.concat({
-            id: imgPath.name + uploads.length,
-            name: imgPath.name,
-            url: file.url
-        }))
+    const uploadIMG = async () => {
+        
+        console.log(imgPath)
+        // make object
+        if (!isEmpty(imgPath)) {
+            const data = new FormData();
+            data.append("file", imgPath);         // GET Value from state >> upload
+    
+            data.append("upload_preset", "udzc5qvv");
+            // upload file
+            const res = await fetch(
+                "https://api.cloudinary.com/v1_1/mgr/image/upload",
+                {
+                    method: "POST",
+                    body: data,
+                }
+            );
+            const file = await res.json();           // URL Link to picture
+            // console.log(file)
+            setUploads(uploads.concat({
+                id: imgPath.name + uploads.length,
+                name: imgPath.name,
+                url: file.url
+            }))
+        }
     }
 
     const selectFile = (e) => {
