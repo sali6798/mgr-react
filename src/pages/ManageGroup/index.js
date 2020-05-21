@@ -112,7 +112,7 @@ function ManageGroup() {
 
         return (
             <div>
-                <h1>{group.name}</h1>
+                <h3>{group.name}</h3>
                 <Grid className={classes.grid} container justify="space-evenly" spacing={2}>
                     <Grid item sm={4} md={3}>
                         <Paper className={classes.paper} elevation={3}>
