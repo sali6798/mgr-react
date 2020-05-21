@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Dashboard() {
+    const history = useHistory();
     const calendarComponentRef = React.createRef()
     const [myEvents, setMyEvents] = useState([])
 
@@ -96,6 +98,9 @@ function Dashboard() {
                     }
 
                     setMyEvents(user.myEvents)
+                }
+                else {
+                    history.push("/login");
                 }
             }
             catch (err) {
