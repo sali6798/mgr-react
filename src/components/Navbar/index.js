@@ -77,19 +77,20 @@ function Navbar() {
                 .then(() => { 
                     setManager(undefined);
                     history.push("/");
-                })
+                }).then(setValue(0))
                 .catch(err => console.log(err))
         }
 
-        // if (location.pathname === "/dashboard") {
-        //     API.readSessions()
-        //     .then(({ data }) => {
-        //         console.log(data)
-        //         setManager(data.isManager)
-        //         console.log(data.isManager)
-        //     })
-        //     .catch(err => console.log(err))
-        // }
+        if (location.pathname === "/dashboard") {
+            API.readSessions()
+            .then(({ data }) => {
+                console.log(data)
+                setManager(data.isManager)
+                setValue(0)
+                console.log(data.isManager)
+            })
+            .catch(err => console.log(err))
+        }
         else { 
             API.readSessions()
             .then(({ data }) => {
