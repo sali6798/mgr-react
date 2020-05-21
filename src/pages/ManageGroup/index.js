@@ -51,6 +51,7 @@ function ManageGroup() {
     const [addArtistOpen, setAddArtistOpen] = useState(false);
     const [deleteUser, setDeleteUser] = useState(false);
     const [authorized, setAuthorized] = useState(false);
+    // const [manager, setManager] = useState(false);
     const classes = useStyles();
 
 
@@ -64,6 +65,7 @@ function ManageGroup() {
                     setAuthorized(true);
                     setGroup(groupData);
                     setPosts(groupData.posts)
+                    console.log(user.isManager)
 
                     loadArtists();
                 }

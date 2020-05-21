@@ -81,15 +81,32 @@ function Navbar() {
                 .catch(err => console.log(err))
         }
 
-        if (location.pathname === "/dashboard") {
+        // if (location.pathname === "/dashboard") {
+        //     API.readSessions()
+        //     .then(({ data }) => {
+        //         console.log(data)
+        //         setManager(data.isManager)
+        //         console.log(data.isManager)
+        //     })
+        //     .catch(err => console.log(err))
+        // }
+        else { 
             API.readSessions()
             .then(({ data }) => {
-                console.log(data)
-                setManager(data.isManager)
-                console.log(data.isManager)
-            })
-            .catch(err => console.log(err))
+            setManager(data.isManager)
+            setValue(value)
         }
+            // console.log(data.isManager)
+            )}
+        // if (location.pathname === "/manage/:id") {
+        //     API.readSessions()
+        //     .then(({ data }) => {
+        //         console.log(data)
+        //         setManager(data.isManager)
+        //         console.log(data.isManager)
+        //     })
+        //     .catch(err => console.log(err))
+        // }
     }, [location])
 
     const handleChange = (event, newValue) => {
