@@ -5,7 +5,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import API from "../../utils/API"
 
 function InfoList(props) {
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(Math.floor(Math.random() * 1000));
 
     const displayList = () => {
 
