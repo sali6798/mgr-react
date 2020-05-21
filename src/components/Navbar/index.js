@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, Link, useHistory } from "react-router-dom";
 import "./style.css"
 import { makeStyles } from '@material-ui/core/styles';
 import { Tabs, Tab, AppBar } from "@material-ui/core"
@@ -18,10 +18,10 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         fontFamily: 'Orbitron',
         fontWeight: 700,
-},
-tab: {
-    fontFamily: "Orbitron",
-}
+    },
+    tab: {
+        fontFamily: "Orbitron",
+    }
 }));
 
 // function LinkTab(props) {
@@ -65,49 +65,32 @@ tab: {
 
 function Navbar() {
     const location = useLocation();
+    const history = useHistory();
     const classes = useStyles();
     const [value, setValue] = useState();
-    // const location = useLocation();
-    let isManager = useRef(null);
-
-    // useEffect(() => {
-    //     // console.log(location.pathname)
-    //     switch (location.pathname) {
-    //         case "/dashboard":
-    //             setValue(1);
-    //             break;
-    //         case "/groups":
-    //             setValue(2);
-    //             break;
-    //         case "/createaccount":
-    //             setValue(3);
-    //             break;
-    //         case "/login":
-    //             setValue(4);
-    //             break;
-    //         case "/myaccount":
-    //             setValue(5);
-    //             break;
-    //         case "/logout":
-    //             API.logout()
-    //                 .catch(err => console.log(err))
-    //             break;
-    //         case "/":
-    //             setValue(0);
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }, [location])
+    const [manager, setManager] = useState(false);
 
     useEffect(() => {
-        API.readSessions()
+        // console.log(location.pathname)
+        if (location.pathname === "/logout") {
+            API.logout()
+                .then(() => { 
+                    setManager(undefined);
+                    history.push("/");
+                })
+                .catch(err => console.log(err))
+        }
+
+        if (location.pathname === "/dashboard") {
+            API.readSessions()
             .then(({ data }) => {
-                isManager.current = data.isManager;
-                console.log(isManager)
+                console.log(data)
+                setManager(data.isManager)
+                console.log(data.isManager)
             })
             .catch(err => console.log(err))
-    }, [])
+        }
+    }, [location])
 
     const handleChange = (event, newValue) => {
         // event.preventDefault()
@@ -159,7 +142,7 @@ function Navbar() {
     // }
 
 
-    if (isManager-- - true) {
+    if (manager === true) {
         return (
             <div className={classes.root}>
                 <AppBar position="static">
@@ -175,7 +158,7 @@ function Navbar() {
                         <Tab className="tab" label="Dashboard" component={Link} to="/dashboard" />
                         <Tab className="tab" label="Groups" component={Link} to="/groups" />
                         <Tab className="tab" label="My Account" component={Link} to="/myaccount" />
-                        <Tab className="tab" label="Logout" component={Link} to="/login" />
+                        <Tab className="tab" label="Logout" component={Link} to="/logout" />
                     </Tabs>
                 </AppBar>
 
@@ -183,7 +166,7 @@ function Navbar() {
             </div>
 
         );
-    } else if (isManager === false) {
+    } else if (manager === false) {
         return (
             <div className={classes.root}>
                 <AppBar position="static">
@@ -198,7 +181,7 @@ function Navbar() {
                         {/* {displayTabs()} */}
                         <Tab className="tab" label="Dashboard" component={Link} to="/dashboard" />
                         <Tab className="tab" label="My Account" component={Link} to="/myaccount" />
-                        <Tab className="tab" label="Logout" component={Link} to="/login" />
+                        <Tab className="tab" label="Logout" component={Link} to="/logout" />
                     </Tabs>
                 </AppBar>
 
