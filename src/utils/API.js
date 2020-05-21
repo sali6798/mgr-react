@@ -1,4 +1,5 @@
 import axios from "axios";
+import { FunctionsRounded } from "@material-ui/icons";
 
 const BASE_URL = "http://localhost:8080"
 // const BASE_URL = "https://mgrserver.herokuapp.com"
@@ -49,5 +50,6 @@ export default {
     },
     updateMyEvents: function (events) {
         return axios.put(BASE_URL + "/api/user/add/event", events, { withCredentials: true })
-    }
+    },
+
 }
