@@ -39,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        border: '2px solid #ffa69e',
+        
     },
     paper: {
         padding: theme.spacing(2),
