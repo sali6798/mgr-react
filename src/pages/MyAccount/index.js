@@ -216,6 +216,7 @@ function MyAccount() {
                         <div>
                             <TwitterButton text="Link" handleClick={handleTWlogin} />
                         </div>
+                        <br />
                         <div>
                             <FacebookButton text="Link" handleClick={handleFBlogin} />
                         </div>

@@ -9,6 +9,7 @@ import GroupView from "./pages/GroupView"
 import ManageGroup from "./pages/ManageGroup"
 import Test from "./pages/Test"
 import MyAccount from "./pages/MyAccount"
+import "./App.css"
 
 function App() {
   return (

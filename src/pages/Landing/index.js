@@ -47,8 +47,11 @@ function Landing() {
                 <hr />
                 <p>I actually have no idea what you should do if your an artist.</p>
                 <br />
-                <Button variant="contained" color="primary">
-                        What Do I Do?
+                <Button  className={classes.buttonMargin} variant="contained" color="primary" href="/createaccount">
+                        Create Account
+                </Button>
+                    <Button className={classes.buttonMargin} variant="contained" color="primary" href="/login">
+                        Login
                 </Button>
             </Paper>
         </Grid>
