@@ -8,11 +8,6 @@ import GroupList from "../../components/GroupList"
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-    },
     paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
@@ -21,6 +16,8 @@ const useStyles = makeStyles((theme) => ({
     grid: {
         flexGrow: 1,
         marginTop: 20,
+        width: "80%",
+        margin: "0 auto",
     },
     field: {
         width: "100%"
@@ -83,10 +80,9 @@ function GroupView() {
 
     function renderGroups() {
         return (
-            <Grid className={classes.grid} container spacing={1}>
+            <Grid justify="center" className={`${classes.grid} Group`} container spacing={1}>
 
-                <Grid item xs={3} />
-                <Grid item xs={6}>
+                <Grid item sm={6}>
                     <Paper className={classes.paper} elevation={3}>
                         <h1>Your Groups</h1>
                         <hr />
@@ -105,7 +101,6 @@ function GroupView() {
                         </div>
                     </Paper>
                 </Grid>
-                <Grid item xs={3} />
             </Grid>
         );
     }

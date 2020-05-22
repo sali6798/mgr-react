@@ -8,10 +8,11 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         marginTop: 20,
+        width: "80%",
+        margin: "0 auto",
     },
     paper: {
         padding: theme.spacing(2),
-        height: 200,
         textAlign: 'center',
         color: theme.palette.text.primary,
     },
@@ -24,14 +25,31 @@ function Landing() {
     const classes = useStyles();
     
     return (
+    
+    <div>
+    <div className={classes.root}>
+        <Grid container spacing={3}>
+        <Grid item xs={12}>
+            <Paper className={classes.paper} elevation={3}>
+                <h1>Welcome to MGR</h1>
+                <hr />
+                <p>MGR is an application that helps managers and artists track deadlines and social media commitments with shared calendars and cloud-based file sharing. Our goal is to automate the process of communicating important dates, managing social media scheduling, and sharing content necessary for artist promotion in a simple & seamless experience. 
+</p>
+                <br />
+             
+            </Paper>
+        </Grid>
+        </Grid>
+    </div>
+    
     <div className={classes.root}>
         
     <Grid container spacing={3}>
-        <Grid item xs={6}>
+        <Grid item sm={6}>
             <Paper className={classes.paper} elevation={3}>
                 <h3>Managers</h3>
                 <hr />
-                <p>For all those managers and record label reps who want to wrangle their artists, click below to create an account or login.</p>
+                <p>Set promotion deadlines and add content that your artist can easily access to take the hassle out of social media management. </p>
                 <br />
                 <Button  className={classes.buttonMargin} variant="contained" color="primary" href="/createaccount">
                         Create Account
@@ -41,11 +59,11 @@ function Landing() {
                 </Button>
             </Paper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item sm={6}>
             <Paper className={classes.paper} elevation={3}>
             <h3>Artists</h3>
                 <hr />
-                <p>I actually have no idea what you should do if your an artist.</p>
+                <p>Artists can check their calendar and get email notifications when it's time to post to their networks, with a link to the graphics and content provided by managers for quick posting.</p>
                 <br />
                 <Button  className={classes.buttonMargin} variant="contained" color="primary" href="/createaccount">
                         Create Account
@@ -57,6 +75,7 @@ function Landing() {
         </Grid>
     </Grid>
         
+    </div>
     </div>
     )
 }
