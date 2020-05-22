@@ -51,5 +51,8 @@ export default {
     updateMyEvents: function (events) {
         return axios.put(BASE_URL + "/api/user/add/event", events, { withCredentials: true })
     },
+    updatePost: function (id, post) {
+        return axios.put(BASE_URL + "/api/post/" + id, post, { withCredentials: true })
+    }
 
 }
