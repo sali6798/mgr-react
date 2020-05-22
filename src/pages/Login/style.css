@@ -6,3 +6,7 @@ h3 {
 p {
     font-family: Roboto;
 }
+
+.makeStyles-root-67 .MuiTextField-root, .makeStyles-textField-70 {
+    width: 75% !important;
+}

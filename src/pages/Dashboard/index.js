@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
         border: '2px solid #ffa69e',
-        
+
     },
     paper: {
         padding: theme.spacing(2),
@@ -78,6 +78,7 @@ function Dashboard() {
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [descOpen, setDescOpen] = useState(false);
 
     const [loggedIn, setLoggedIn] = useState(false);
 
@@ -115,10 +116,10 @@ function Dashboard() {
         init();
     }, [])
 
-    useEffect( async () => {
-        const {data} = await API.getPagesinfo()
+    useEffect(async () => {
+        const { data } = await API.getPagesinfo()
         console.log(data)
-        setFanPage(data)        
+        setFanPage(data)
     }, [])
 
     function renderEvents(groups) {
@@ -136,10 +137,10 @@ function Dashboard() {
                         start: post.release,
                         allDay: true
                     }
-                    
+
                     return eventObj;
                 })
-                
+
                 setPosts(postsArr)
                 setEvents(events.concat(groupEvents))
             }
@@ -154,19 +155,29 @@ function Dashboard() {
         }
     }, [myEvents])
 
-    const handleOpen = () => {
-        setOpen(true);
+    const handleOpen = (type) => {
+        if (type) {
+            setDescOpen(true);
+        }
+        else {
+            setOpen(true);
+        }
     };
 
-    const handleClose = () => {
-        setOpen(false);
-        setTitle("");
-        setDescription("");
-        setChosenDate({
-            allDay: false,
-            startDate: new Date(),
-            endDate: new Date()
-        });
+    const handleClose = (type) => {
+        if (type) {
+            setOpen(false)
+        }
+        else {
+            setOpen(false);
+            setTitle("");
+            setDescription("");
+            setChosenDate({
+                allDay: false,
+                startDate: new Date(),
+                endDate: new Date()
+            });
+        }
     };
 
     const handleDateClick = arg => {
@@ -248,15 +259,17 @@ function Dashboard() {
     }
 
     // const displayDesc = mouseEnterInfo => {
-    function displayDesc(mouseEnterInfo) {
+    function displayDesc(info) {
         // console.log(mouseEnterInfo)
         // const SomeContent = React.forwardRef((props, ref) => <div {...props} ref={ref}>{mouseEnterInfo.el}</div>);
-        return (
-            <Tooltip title={mouseEnterInfo.event.extendedProps.description} interactive>
-                {mouseEnterInfo.el}
-                {/* {inputEl} */}
-            </Tooltip>
-        );
+        // return (
+        //     <Tooltip title={mouseEnterInfo.event.extendedProps.description} interactive>
+        //         {mouseEnterInfo.el}
+        //         {/* {inputEl} */}
+        //     </Tooltip>
+        // );
+        console.log(info)
+
     }
 
 
@@ -295,7 +308,8 @@ function Dashboard() {
                             events={events.concat(myEvents)}
                             dateClick={handleDateClick}
                             // ref={inputEl}
-                            eventMouseEnter={displayDesc}
+                            // eventMouseEnter={displayDesc}
+                            eventClick={displayDesc}
                         />
                     </Paper>
                 </Grid>
@@ -322,10 +336,10 @@ function Dashboard() {
                                         alignItems="center"
                                         spacing={2}
                                     >
-                                        <Grid item>
+                                        <Grid item className="title">
                                             <TextField label="Event Title" variant="outlined" name="title" value={title} onChange={handleInputChange} required></TextField>
                                         </Grid>
-                                        <Grid item>
+                                        <Grid item className="description">
                                             <TextField
                                                 id="outlined-multiline-static"
                                                 label="Description"
@@ -337,26 +351,55 @@ function Dashboard() {
                                                 onChange={handleInputChange}
                                             />
                                         </Grid>
+                                        <Grid item>
+                                            <FormGroup >
+                                                <FormControlLabel
+                                                    control={
+                                                        <Switch
+                                                            checked={chosenDate.allDay}
+                                                            onChange={handleChange}
+                                                            name="allDay"
+                                                            color="primary"
+                                                        />
+                                                    }
+                                                    label="All Day"
+                                                />
+                                            </FormGroup>
 
-                                        <FormGroup >
-                                            <FormControlLabel
-                                                control={
-                                                    <Switch
-                                                        checked={chosenDate.allDay}
-                                                        onChange={handleChange}
-                                                        name="allDay"
-                                                        color="primary"
-                                                    />
-                                                }
-                                                label="All Day"
-                                            />
-                                        </FormGroup>
+                                        </Grid>
 
-                                        <DateTimePicker {...chosenDate} dateLabel="Start Date" timeLabel="Start Time" handleDateChange={handleStartDateChange} />
-                                        <DateTimePicker {...chosenDate} dateLabel="End Date" timeLabel="End Time" handleDateChange={handleEndDateChange} />
+                                        <Grid item>
+                                            <DateTimePicker {...chosenDate} dateLabel="Start Date" timeLabel="Start Time" handleDateChange={handleStartDateChange} />
+
+                                        </Grid>
+                                        <Grid item>
+                                            <DateTimePicker {...chosenDate} dateLabel="End Date" timeLabel="End Time" handleDateChange={handleEndDateChange} />
+
+                                        </Grid>
+
                                         <Button variant="contained" color="primary" type="submit">Save</Button>
                                     </Grid>
                                 </form>
+                            </div>
+                        </Fade>
+                    </Modal>
+                </div>
+                <div>
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={descOpen}
+                        onClose={handleClose}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                            timeout: 500,
+                        }}
+                    >
+                        <Fade in={descOpen}>
+                            <div className={classes.modalPaper}>
+                                
                             </div>
                         </Fade>
                     </Modal>
