@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { Grid, Paper, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput, FormHelperText, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core'
+import { Grid, Paper, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput, FormHelperText } from '@material-ui/core';
+// FormLabel, FormGroup, FormControlLabel, Checkbox
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import API from "../../utils/API"
@@ -47,7 +48,7 @@ function MyAccount() {
         showPassword: false,
         facebookPages: []
     })
-    const [user, setUser] = useState([]);
+    // const [user, setUser] = useState([]);
 
 
     useEffect(() => {
@@ -82,7 +83,7 @@ function MyAccount() {
     // }, [])
 
 
-    const error = 5 === 0;
+    // const error = 5 === 0;
     // const error = values.facebookPages.length === 0;
 
     const handleChange = (prop) => (event) => {
@@ -114,8 +115,8 @@ function MyAccount() {
         //         // history.push("/dashboard")
         //     })
 
-        API.updateUser({ facebookPages: user })
-            .catch(err => console.log(err))
+        // API.updateUser({ facebookPages: user })
+        //     .catch(err => console.log(err))
 
     }
 
@@ -130,9 +131,8 @@ function MyAccount() {
     }
 
     return (
-        <Grid className={classes.grid} container spacing={1}>
-            <Grid item xs={3} />
-            <Grid item xs={6}>
+        <Grid className={classes.grid} container spacing={1} justify="center">
+            <Grid item sm={6}>
                 <Paper className={classes.paper} elevation={3} maxwidth="sm">
                     <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
                         <h3>My Account</h3>
@@ -216,6 +216,7 @@ function MyAccount() {
                         <div>
                             <TwitterButton text="Link" handleClick={handleTWlogin} />
                         </div>
+                        <br />
                         <div>
                             <FacebookButton text="Link" handleClick={handleFBlogin} />
                         </div>
@@ -252,7 +253,6 @@ function MyAccount() {
                     </form>
                 </Paper>
             </Grid>
-            <Grid item xs={3} />
         </Grid>
     );
 }

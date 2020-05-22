@@ -39,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        border: '2px solid #ffa69e',
+
     },
     paper: {
         padding: theme.spacing(2),
@@ -76,6 +78,7 @@ function Dashboard() {
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [descOpen, setDescOpen] = useState(false);
 
     const [loggedIn, setLoggedIn] = useState(false);
 
@@ -113,10 +116,10 @@ function Dashboard() {
         init();
     }, [])
 
-    useEffect( async () => {
-        const {data} = await API.getPagesinfo()
+    useEffect(async () => {
+        const { data } = await API.getPagesinfo()
         console.log(data)
-        setFanPage(data)        
+        setFanPage(data)
     }, [])
 
     function renderEvents(groups) {
@@ -134,10 +137,10 @@ function Dashboard() {
                         start: post.release,
                         allDay: true
                     }
-                    
+
                     return eventObj;
                 })
-                
+
                 setPosts(postsArr)
                 setEvents(events.concat(groupEvents))
             }
@@ -152,19 +155,36 @@ function Dashboard() {
         }
     }, [myEvents])
 
-    const handleOpen = () => {
-        setOpen(true);
+    const handleOpen = (type) => {
+        if (type) {
+            setDescOpen(true);
+        }
+        else {
+            setOpen(true);
+        }
     };
 
-    const handleClose = () => {
-        setOpen(false);
-        setTitle("");
-        setDescription("");
-        setChosenDate({
-            allDay: false,
-            startDate: new Date(),
-            endDate: new Date()
-        });
+    const handleClose = (type) => {
+        if (type) {
+            setDescOpen(false)
+            setTitle("");
+            setDescription("");
+            setChosenDate({
+                allDay: false,
+                startDate: new Date(),
+                endDate: new Date()
+            });
+        }
+        else {
+            setOpen(false);
+            setTitle("");
+            setDescription("");
+            setChosenDate({
+                allDay: false,
+                startDate: new Date(),
+                endDate: new Date()
+            });
+        }
     };
 
     const handleDateClick = arg => {
@@ -239,29 +259,39 @@ function Dashboard() {
 
     function renderTodaysEvents() {
         const todaysEvents = posts.filter(post => moment().isSame(post.release, 'day'));
-        console.log(todaysEvents)
+        // console.log(todaysEvents)
 
         // return todaysEvents.map(event => <ListItem key={event.title + event.start}><ListItemText primary={event.title} /><PreviewBtn /></ListItem>)
         return todaysEvents.map(event => <ListItem key={event._id}><ListItemText primary={event.eventTitle} /><PreviewBtn {...event} fanPage={fanPage} /></ListItem>)
     }
 
     // const displayDesc = mouseEnterInfo => {
-    function displayDesc(mouseEnterInfo) {
+    function displayDesc(info) {
         // console.log(mouseEnterInfo)
         // const SomeContent = React.forwardRef((props, ref) => <div {...props} ref={ref}>{mouseEnterInfo.el}</div>);
-        return (
-            <Tooltip title={mouseEnterInfo.event.extendedProps.description} interactive>
-                {mouseEnterInfo.el}
-                {/* {inputEl} */}
-            </Tooltip>
-        );
+        // return (
+        //     <Tooltip title={mouseEnterInfo.event.extendedProps.description} interactive>
+        //         {mouseEnterInfo.el}
+        //         {/* {inputEl} */}
+        //     </Tooltip>
+        // );
+        // console.log(info)
+        setDescription(info.event._def.extendedProps.description);
+        setTitle(info.event.title)
+        setChosenDate({
+            allDay: info.event.allDay,
+            startDate: info.event.start,
+            endDate: info.event.end
+        })
+
+        handleOpen("desc");
     }
 
 
     const renderDashboard = () => {
         return (
             <Grid container className='demo-app' spacing={2} justify="center">
-                <Grid item sm={3}>
+                <Grid item md={3}>
                     <Paper className={classes.paper} elevation={3}>
                         <h1>Today's Schedule</h1>
                         <hr />
@@ -271,7 +301,7 @@ function Dashboard() {
                     </Paper>
 
                 </Grid>
-                <Grid item sm={9}>
+                <Grid item md={9}>
                     <Paper className={classes.paper} elevation={3}>
                         <FullCalendar
                             defaultView="dayGridMonth"
@@ -293,7 +323,8 @@ function Dashboard() {
                             events={events.concat(myEvents)}
                             dateClick={handleDateClick}
                             // ref={inputEl}
-                            eventMouseEnter={displayDesc}
+                            // eventMouseEnter={displayDesc}
+                            eventClick={displayDesc}
                         />
                     </Paper>
                 </Grid>
@@ -320,10 +351,10 @@ function Dashboard() {
                                         alignItems="center"
                                         spacing={2}
                                     >
-                                        <Grid item>
+                                        <Grid item className="title">
                                             <TextField label="Event Title" variant="outlined" name="title" value={title} onChange={handleInputChange} required></TextField>
                                         </Grid>
-                                        <Grid item>
+                                        <Grid item className="description">
                                             <TextField
                                                 id="outlined-multiline-static"
                                                 label="Description"
@@ -335,26 +366,61 @@ function Dashboard() {
                                                 onChange={handleInputChange}
                                             />
                                         </Grid>
+                                        <Grid item>
+                                            <FormGroup >
+                                                <FormControlLabel
+                                                    control={
+                                                        <Switch
+                                                            checked={chosenDate.allDay}
+                                                            onChange={handleChange}
+                                                            name="allDay"
+                                                            color="primary"
+                                                        />
+                                                    }
+                                                    label="All Day"
+                                                />
+                                            </FormGroup>
 
-                                        <FormGroup >
-                                            <FormControlLabel
-                                                control={
-                                                    <Switch
-                                                        checked={chosenDate.allDay}
-                                                        onChange={handleChange}
-                                                        name="allDay"
-                                                        color="primary"
-                                                    />
-                                                }
-                                                label="All Day"
-                                            />
-                                        </FormGroup>
+                                        </Grid>
 
-                                        <DateTimePicker {...chosenDate} dateLabel="Start Date" timeLabel="Start Time" handleDateChange={handleStartDateChange} />
-                                        <DateTimePicker {...chosenDate} dateLabel="End Date" timeLabel="End Time" handleDateChange={handleEndDateChange} />
+                                        <Grid item>
+                                            <DateTimePicker {...chosenDate} dateLabel="Start Date" timeLabel="Start Time" handleDateChange={handleStartDateChange} />
+
+                                        </Grid>
+                                        <Grid item>
+                                            <DateTimePicker {...chosenDate} dateLabel="End Date" timeLabel="End Time" handleDateChange={handleEndDateChange} />
+
+                                        </Grid>
+
                                         <Button variant="contained" color="primary" type="submit">Save</Button>
                                     </Grid>
                                 </form>
+                            </div>
+                        </Fade>
+                    </Modal>
+                </div>
+                <div>
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={descOpen}
+                        onClose={handleClose}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                            timeout: 500,
+                        }}
+                    >
+                        <Fade in={descOpen}>
+                            <div className={classes.modalPaper}>
+                                <h3>{title}</h3>
+                                <hr />
+                                <p>{description}</p>
+                                {chosenDate.allDay ? <p>All Day Event</p> : ""}
+                                <p>Start: {moment(chosenDate.startDate).format("LLLL")}</p>
+                                {chosenDate.endDate ? <p>End: {moment(chosenDate.endDate).format("LLLL")}</p> : ""}
+                                
                             </div>
                         </Fade>
                     </Modal>

@@ -1,0 +1,17 @@
+
+.MuiButton-containedPrimary {
+    background-color: #861657;
+    background-image: linear-gradient(326deg, #861657 0%, #ffa69e 74%);
+}
+
+.MuiPaper-root {
+    border: 2px solid #ffa69e;
+}
+
+.MuiModal-containedPrimary {
+    border: 2px solid #ffa69e;
+}
+
+.makeStyles-paper-369 {
+    border: 2px solid #ffa69e;
+}

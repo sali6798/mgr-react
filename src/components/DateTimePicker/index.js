@@ -10,7 +10,7 @@ function DateTimePicker(props) {
     return (
         <MuiPickersUtilsProvider utils={MomentUtils}>
             {!props.allDay
-                ? <Grid><DatePicker {...props} /><TimePicker {...props} /></Grid>
+                ? <Grid container justify="center"><DatePicker {...props} /><TimePicker {...props} /></Grid>
                 : <DatePicker {...props} />
             }
         </MuiPickersUtilsProvider>
