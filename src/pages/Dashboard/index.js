@@ -61,6 +61,7 @@ function Dashboard() {
 
     const [events, setEvents] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [fanPage, setFanPage] = useState([]);
 
     const [chosenDate, setChosenDate] = useState({
         allDay: false,
@@ -110,6 +111,12 @@ function Dashboard() {
         }
 
         init();
+    }, [])
+
+    useEffect( async () => {
+        const {data} = await API.getPagesinfo()
+        console.log(data)
+        setFanPage(data)        
     }, [])
 
     function renderEvents(groups) {
@@ -235,7 +242,7 @@ function Dashboard() {
         console.log(todaysEvents)
 
         // return todaysEvents.map(event => <ListItem key={event.title + event.start}><ListItemText primary={event.title} /><PreviewBtn /></ListItem>)
-        return todaysEvents.map(event => <ListItem key={event._id}><ListItemText primary={event.eventTitle} /><PreviewBtn {...event} /></ListItem>)
+        return todaysEvents.map(event => <ListItem key={event._id}><ListItemText primary={event.eventTitle} /><PreviewBtn {...event} fanPage={fanPage} /></ListItem>)
     }
 
     // const displayDesc = mouseEnterInfo => {

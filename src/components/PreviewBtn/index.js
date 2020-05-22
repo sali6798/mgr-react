@@ -37,37 +37,44 @@ export default function PreviewBtn(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [postBody, setPostBody] = useState(props.body)
-    const [fanPage, setFanPage] = useState([]);
+
 
     const handleInputChange = event => {
         setPostBody(event.target.value);
     }
 
-    useEffect(async () => {
-        const { data } = await API.getPagesinfo()
-        console.log(data)
-        setFanPage(data)
-    }, [])
 
     function twitter() {
         // post to twitter
         console.log("TW")
         console.log(postBody.body);
-        API.twPostText(postBody)
+        API.twPostImg(postBody)
             .then((res) => {
                 console.log(res);
                 console.log("tweet success")
             })
+        
     }
 
     async function facebook() {
         // post to facebook
         console.log("FB")
-        API.fbPostText(fanPage[0].id, fanPage[0].access_token, postBody)
-            .then((res) => {
-                console.log(res);
-                console.log("fb posted");
-            })
+        console.log(props.imageLinks)
+        if (props.imageLinks.length > 0) {
+
+
+            API.fbPostTextImg(props.fanPage[0].id, props.fanPage[0].access_token, postBody, props.imageLinks)
+                .then((res) => {
+                    console.log(res);
+                    console.log("fb posted");
+                })
+        } else {
+            API.fbPostText(props.fanPage[0].id, props.fanPage[0].access_token, postBody)
+                .then((res) => {
+                    console.log(res);
+                    console.log("fb posted");
+                })
+        }
 
     }
 
