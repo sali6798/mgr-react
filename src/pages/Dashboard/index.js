@@ -166,7 +166,14 @@ function Dashboard() {
 
     const handleClose = (type) => {
         if (type) {
-            setOpen(false)
+            setDescOpen(false)
+            setTitle("");
+            setDescription("");
+            setChosenDate({
+                allDay: false,
+                startDate: new Date(),
+                endDate: new Date()
+            });
         }
         else {
             setOpen(false);
@@ -252,7 +259,7 @@ function Dashboard() {
 
     function renderTodaysEvents() {
         const todaysEvents = posts.filter(post => moment().isSame(post.release, 'day'));
-        console.log(todaysEvents)
+        // console.log(todaysEvents)
 
         // return todaysEvents.map(event => <ListItem key={event.title + event.start}><ListItemText primary={event.title} /><PreviewBtn /></ListItem>)
         return todaysEvents.map(event => <ListItem key={event._id}><ListItemText primary={event.eventTitle} /><PreviewBtn {...event} fanPage={fanPage} /></ListItem>)
@@ -268,8 +275,16 @@ function Dashboard() {
         //         {/* {inputEl} */}
         //     </Tooltip>
         // );
-        console.log(info)
+        // console.log(info)
+        setDescription(info.event._def.extendedProps.description);
+        setTitle(info.event.title)
+        setChosenDate({
+            allDay: info.event.allDay,
+            startDate: info.event.start,
+            endDate: info.event.end
+        })
 
+        handleOpen("desc");
     }
 
 
@@ -399,6 +414,12 @@ function Dashboard() {
                     >
                         <Fade in={descOpen}>
                             <div className={classes.modalPaper}>
+                                <h3>{title}</h3>
+                                <hr />
+                                <p>{description}</p>
+                                {chosenDate.allDay ? <p>All Day Event</p> : ""}
+                                <p>Start: {moment(chosenDate.startDate).format("LLLL")}</p>
+                                {chosenDate.endDate ? <p>End: {moment(chosenDate.endDate).format("LLLL")}</p> : ""}
                                 
                             </div>
                         </Fade>

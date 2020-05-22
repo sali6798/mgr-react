@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { Grid, Paper, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput, FormHelperText, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core'
+import { Grid, Paper, Button, InputAdornment, InputLabel, IconButton, TextField, FormControl, OutlinedInput, FormHelperText } from '@material-ui/core';
+// FormLabel, FormGroup, FormControlLabel, Checkbox
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import API from "../../utils/API"
@@ -47,7 +48,7 @@ function MyAccount() {
         showPassword: false,
         facebookPages: []
     })
-    const [user, setUser] = useState([]);
+    // const [user, setUser] = useState([]);
 
 
     useEffect(() => {
@@ -82,7 +83,7 @@ function MyAccount() {
     // }, [])
 
 
-    const error = 5 === 0;
+    // const error = 5 === 0;
     // const error = values.facebookPages.length === 0;
 
     const handleChange = (prop) => (event) => {
@@ -114,8 +115,8 @@ function MyAccount() {
         //         // history.push("/dashboard")
         //     })
 
-        API.updateUser({ facebookPages: user })
-            .catch(err => console.log(err))
+        // API.updateUser({ facebookPages: user })
+        //     .catch(err => console.log(err))
 
     }
 
