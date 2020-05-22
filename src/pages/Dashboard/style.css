@@ -3,6 +3,17 @@ h1 {
     font-weight: 500;
 }
 
-.demo-app {
+.Dashboard .demo-app {
     margin-top: 10px;
+}
+
+@media screen and (max-width: 915px) {
+    .Dashboard .fc-toolbar {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .Dashboard .fc-left, .Dashboard .fc-center, .Dashboard .fc-right {
+        margin: 10px 0;
+    }
 }
