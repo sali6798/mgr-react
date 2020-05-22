@@ -48,7 +48,7 @@ function MyAccount() {
         facebookPages: []
     })
     const [user, setUser] = useState([]);
-    
+
 
     useEffect(() => {
         API.readSessions()
@@ -71,14 +71,15 @@ function MyAccount() {
     }, [])
 
     // UPDATE UserFanpage   //***************************************************************************** 
-    useEffect(() => {
-        API.getPagesinfo()
-            .then(({ data }) => {
-                //setValues({ ...values, facebookPages: data })
-                console.log(data)
-                setUser(data);
-            })
-    }, [])
+    // useEffect(() => {
+    //     API.getPagesinfo()
+    //         .then(({ data }) => {
+    //             //setValues({ ...values, facebookPages: data })
+    //             console.log(data)
+    //             setUser(data);
+
+    //         })
+    // }, [])
 
 
     const error = 5 === 0;
@@ -106,13 +107,15 @@ function MyAccount() {
         // }
 
         // API.signup(newUser)
-        //     .then(({ email, password }) => API.login({ username: email, password: password}))
+        //     .then(({ email, password }) => API.login({ username: email, password: password }))
         //     .then(({ data }) => {
         //         console.log(data)
 
         //         // history.push("/dashboard")
         //     })
-        //     .catch(err => console.log(err))
+
+        API.updateUser({ facebookPages: user })
+            .catch(err => console.log(err))
 
     }
 
@@ -224,19 +227,19 @@ function MyAccount() {
                                 https://material-ui.com/components/checkboxes/
                             */}
 
-                            <FormControl required error={error} component="fieldset">
+                            {/* <FormControl required error={error} component="fieldset">
                                 <FormLabel component="legend">Pick Pages To Post To</FormLabel>
 
-                                <FormGroup>         
-                                    {/* RENDER PAGE NAME  */}
+                                <FormGroup>
+                                    RENDER PAGE NAME 
                                     {user.map((item) => (
                                         <FormControlLabel key={item.id}
-                                            control={<Checkbox checked={false} onChange={handleChange} name={item.name} />}
+                                            control={<Checkbox checked={false} onChange={handleChange} name={item.name}  />}
                                             label={item.name} />))}
 
                                 </FormGroup>
                                 <FormHelperText>Must Pick At Least One!</FormHelperText>
-                            </FormControl>
+                            </FormControl> */}
 
                         </div>
                         <div>
