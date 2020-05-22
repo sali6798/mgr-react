@@ -8,6 +8,7 @@ import Landing from "./pages/Landing"
 import GroupView from "./pages/GroupView"
 import ManageGroup from "./pages/ManageGroup"
 import Test from "./pages/Test"
+import MyAccount from "./pages/MyAccount"
 
 function App() {
   return (
@@ -16,13 +17,13 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path={"/dashboard"} component={Dashboard} />
-          <Route exact path={["/"]} component={Landing} /> 
+          <Route exact path={["/", "/logout"]} component={Landing} /> 
           <Route exact path={"/test"} component={Test} /> 
           <Route exact path="/createaccount" component={CreateAccount} /> 
           <Route exact path="/manage/:id" component={ManageGroup} /> 
-          <Route exact path="/login" component={Login} /> 
-          <Route exact path="/logout" component={Landing} /> 
+          <Route exact path="/login" component={Login} />
           <Route exact path="/groups" component={GroupView} /> 
+          <Route exact path="/myaccount" component={MyAccount} /> 
           
         </Switch>
       </div>

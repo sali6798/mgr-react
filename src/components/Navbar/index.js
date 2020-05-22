@@ -1,8 +1,9 @@
-import React, { useState, useEffect} from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, Link, useHistory } from "react-router-dom";
 import "./style.css"
 import { makeStyles } from '@material-ui/core/styles';
 import { Tabs, Tab, AppBar } from "@material-ui/core"
+import API from "../../utils/API"
 // import Paper from '@material-ui/core/Paper';
 // import Tabs from '@material-ui/core/Tabs';
 // import LinkTab from '@material-ui/core/Tab';
@@ -11,10 +12,16 @@ import { Tabs, Tab, AppBar } from "@material-ui/core"
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: "#861657 !important",
+        backgroundImage: "linear-gradient(326deg, #861657 0%, #ffa69e 74%) !important",
     },
     title: {
         textAlign: 'center',
+        fontFamily: 'Orbitron',
+        fontWeight: 700,
+    },
+    tab: {
+        fontFamily: "Orbitron",
     }
 }));
 
@@ -30,94 +37,231 @@ const useStyles = makeStyles((theme) => ({
 //     );
 //   }
 
+// function TabPanel(props) {
+//     const { children, value, index, ...other } = props;
+
+//     return (
+//         <div
+//           role="tabpanel"
+//           hidden={value !== index}
+//           id={`simple-tabpanel-${index}`}
+//           aria-labelledby={`simple-tab-${index}`}
+//           {...other}
+//         >
+//           {value === index && (
+//             <Box p={3}>
+//               <Typography>{children}</Typography>
+//             </Box>
+//           )}
+//         </div>
+//       );
+//     }
+
+//     function a11yProps(index) {
+//         return {
+//             id: `simple-tab-${index}`,
+//             'aria-controls': `simple-tabpanel-${index}`,
+//         };
+//     }
+
 function Navbar() {
     const location = useLocation();
+    const history = useHistory();
     const classes = useStyles();
-    const [value, setValue] = useState(0);
-    // const location = useLocation();
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    const [value, setValue] = useState();
+    const [manager, setManager] = useState(false);
 
     useEffect(() => {
         // console.log(location.pathname)
-        switch(location.pathname) {
-            case "/dashboard":
-                setValue(1);
-                break;
-            case "/groups":
-                setValue(2);
-                break;
-            case "/createaccount":
-                setValue(3);
-                break;
-            case "/login":
-                setValue(4);
-                break;
-            default:
-                setValue(0);
-                break;
+        if (location.pathname === "/logout") {
+            API.logout()
+                .then(() => { 
+                    setManager(undefined);
+                    history.push("/");
+                }).then(setValue(0))
+                .catch(err => console.log(err))
         }
+
+        if (location.pathname === "/dashboard") {
+            API.readSessions()
+            .then(({ data }) => {
+                console.log(data)
+                setManager(data.isManager)
+                setValue(0)
+                console.log(data.isManager)
+            })
+            .catch(err => console.log(err))
+        }
+        else { 
+            API.readSessions()
+            .then(({ data }) => {
+            setManager(data.isManager)
+            setValue(value)
+        }
+            // console.log(data.isManager)
+            )}
+        // if (location.pathname === "/manage/:id") {
+        //     API.readSessions()
+        //     .then(({ data }) => {
+        //         console.log(data)
+        //         setManager(data.isManager)
+        //         console.log(data.isManager)
+        //     })
+        //     .catch(err => console.log(err))
+        // }
     }, [location])
 
-    // function a11yProps(index) {
-    //     return {
-    //         id: `nav-tab-${index}`,
-    //         'aria-controls': `nav-tabpanel-${index}`,
-    //     };
+    const handleChange = (event, newValue) => {
+        // event.preventDefault()
+        setValue(newValue);
+    };
+
+
+
+
+
+    // function LinkTab(props) {
+    //     return (
+    //         <Tab
+    //             component="a"
+    //             {...props}
+    //         />
+    //     );
     // }
 
-    function LinkTab(props) {
+    // function displayTabs() {
+    //     if (isManager === true) {
+    //         return (
+    //             <div>
+    //                 <LinkTab label="Home" href="/" />
+    //                 <LinkTab label="Dashboard" href="/dashboard" />
+    //                 <LinkTab label="Groups" href="/groups" />
+    //                 <LinkTab label="Logout" href="/logout" />
+    //             </div>
+    //         );
+    //     }
+    //     else if (isManager === false) {
+    //         return (
+    //             <div>
+    //                 <LinkTab label="Home" href="/" />
+    //                 <LinkTab label="Dashboard" href="/dashboard" />
+    //                 <LinkTab label="Logout" href="/logout" />
+    //             </div>
+    //         );
+    //     }
+
+    //     return (
+    //         <div>
+    //             <LinkTab label="Home" href="/" />
+    //             <LinkTab label="Create Account" href="/createaccount" />
+    //             <LinkTab label="Login" href="/login" />
+    //         </div>
+    //     );
+
+    // }
+
+
+    if (manager === true) {
         return (
-            <Tab
-                component="a"
-                {...props}
-            />
+            <div className={classes.root}>
+                <AppBar position="static">
+                    <h1 className={classes.title}>MGR</h1>
+                    <Tabs
+                        variant="fullWidth"
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="simple tabs example"
+                        centered
+                    >
+                        {/* {displayTabs()} */}
+                        <Tab className="tab" label="Dashboard" component={Link} to="/dashboard" />
+                        <Tab className="tab" label="Groups" component={Link} to="/groups" />
+                        <Tab className="tab" label="My Account" component={Link} to="/myaccount" />
+                        <Tab className="tab" label="Logout" component={Link} to="/logout" />
+                    </Tabs>
+                </AppBar>
+
+
+            </div>
+
+        );
+    } else if (manager === false) {
+        return (
+            <div className={classes.root}>
+                <AppBar position="static">
+                    <h1 className={classes.title}>MGR</h1>
+                    <Tabs
+                        variant="fullWidth"
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="simple tabs example"
+                        centered
+                    >
+                        {/* {displayTabs()} */}
+                        <Tab className="tab" label="Dashboard" component={Link} to="/dashboard" />
+                        <Tab className="tab" label="My Account" component={Link} to="/myaccount" />
+                        <Tab className="tab" label="Logout" component={Link} to="/logout" />
+                    </Tabs>
+                </AppBar>
+
+
+            </div>
+
+        );
+    } else {
+        return (
+            <div className={classes.root}>
+                <AppBar position="static">
+                    <h1 className={classes.title}>MGR</h1>
+                    <Tabs
+                        variant="fullWidth"
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="simple tabs example"
+                        centered
+                    >
+                        {/* {displayTabs()} */}
+                        <Tab className="tab" label="Home" component={Link} to="/" />
+                        <Tab className="tab" label="Create Account" component={Link} to="/createaccount" />
+                        <Tab className="tab" label="Login" component={Link} to="/login" />
+                    </Tabs>
+                </AppBar>
+
+
+            </div>
+
         );
     }
 
 
 
-    return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <h1 className={classes.title}>MGR</h1>
-                <Tabs
-                    variant="fullWidth"
-                    value={value}
-                    onChange={handleChange}
-                    aria-label="nav tabs example"
-                    centered
-                    // indicatorColor="primary"
-                    // textColor="primary"
-                >
-                    <LinkTab label="Home" href="/"  />
-                    <LinkTab label="Dashboard" href="/dashboard"  />
-                    <LinkTab label="Groups" href="/groups"  />
-                    <LinkTab label="Create Account" href="/createaccount"  />
-                    <LinkTab label="Login" href="/login"  />
-                </Tabs>
-            </AppBar>
-        </div>
-        // <Paper className={classes.root}>
-        //     <h1 className={classes.title}>MGR</h1>
-        //     <Tabs
-        //         value={value}
-        //         variant="fullWidth"
-        //         onChange={handleChange}
-        //         indicatorColor="primary"
-        //         textColor="primary"
-        //         centered
-        //     >
-        //         <LinkTab label="Home" href="/" />
-        //         <LinkTab label="Dashboard" href="/dashboard" />
-        //         <LinkTab label="Groups" href="/groups" />
-        //         <LinkTab label="Create Account" href="/createaccount" />
-        //         <LinkTab label="Login" href="/login" />
-        //     </Tabs>
-        // </Paper>
-    );
+
+    // return (
+    //     <div className={classes.root}>
+    //         <AppBar position="static">
+    //             <h1 className={classes.title}>MGR</h1>
+    //             <Tabs
+    //                 variant="fullWidth"
+    //                 value={value}
+    //                 onChange={handleChange}
+    //                 aria-label="simple tabs example"
+    //                 centered
+    //             >
+    //                 {/* {displayTabs()} */}
+    //                 <Tab label="Home" component={Link} to="/"/>
+    //                 <Tab label="Dashboard" component={Link} to="/dashboard"/>
+    //                 <Tab label="Groups" component={Link} to="/groups"/>
+    //                 <Tab label="Create Account" component={Link} to="/createaccount"/>
+    //                 <Tab label="Login" component={Link} to="/login"/>
+    //                 <Tab label="My Account" component={Link} to="/myaccount"/>
+    //                 <Tab label="Logout" component={Link} to="/login"/>
+    //             </Tabs>
+    //         </AppBar>
+
+
+    //     </div>
+
+    // );
 }
 
 export default Navbar;
