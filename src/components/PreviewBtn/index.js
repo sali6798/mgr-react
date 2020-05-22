@@ -43,10 +43,10 @@ export default function PreviewBtn(props) {
         setPostBody(event.target.value);
     }
 
-    useEffect( async () => {
-        const {data} = await API.getPagesinfo()
+    useEffect(async () => {
+        const { data } = await API.getPagesinfo()
         console.log(data)
-        setFanPage(data)        
+        setFanPage(data)
     }, [])
 
     function twitter() {
@@ -54,20 +54,20 @@ export default function PreviewBtn(props) {
         console.log("TW")
         console.log(postBody.body);
         API.twPostText(postBody)
-        .then((res) => {
-            console.log(res);
-            console.log("tweet success")
-        })
+            .then((res) => {
+                console.log(res);
+                console.log("tweet success")
+            })
     }
 
     async function facebook() {
         // post to facebook
         console.log("FB")
         API.fbPostText(fanPage[0].id, fanPage[0].access_token, postBody)
-        .then((res) => {
-            console.log(res);
-            console.log("fb posted");
-        })
+            .then((res) => {
+                console.log(res);
+                console.log("fb posted");
+            })
 
     }
 
@@ -106,12 +106,15 @@ export default function PreviewBtn(props) {
                             </Grid>
 
                             <GridList className={classes.gridList} cellHeight={160} cols={3}>
-                                {props.imageLinks.map((tile, index) => (
-                                    <GridListTile key={index}>
-                                        <img src={tile} alt="image post" />
+                                {props.imageLinks
+                                    ? props.imageLinks.map((tile, index) => (
+                                        <GridListTile key={index}>
+                                            <img src={tile} alt="image post" />
 
-                                    </GridListTile>
-                                ))}
+                                        </GridListTile>
+                                    ))
+                                    : ""
+                                }
                             </GridList>
 
                             <Grid item>
@@ -127,10 +130,10 @@ export default function PreviewBtn(props) {
                                 />
                             </Grid>
                             <Grid item>
-                                <FacebookButton text="Post" handleClick={facebook}/>
+                                <FacebookButton text="Post" handleClick={facebook} />
                             </Grid>
                             <Grid item>
-                                <TwitterButton text="Post" handleClick={twitter}/>
+                                <TwitterButton text="Post" handleClick={twitter} />
                             </Grid>
                         </Grid>
                     </div>
