@@ -52,6 +52,10 @@ export default {
         return axios.put(BASE_URL + "/api/user/add/event", events, { withCredentials: true })
     },
 
+    updateUser: function(id,data) {
+        return axios.put(BASE_URL + `/api/user/${id}`, data, { withCredentials: true })
+    },
+
     //facebook
     getPagesinfo: function () {
         return axios.get(BASE_URL + "/post/facebook/pagesinfo", { withCredentials: true })
@@ -84,8 +88,11 @@ export default {
         return axios.post(BASE_URL + "/post/twitter/tweet", data, { withCredentials: true })
     },
 
-    twPostImg: function () {
-
+    twPostImg: function (text) {
+        const data = {
+            text: text
+        }
+        return axios.post(BASE_URL + "/post/twitter/media", data,{ withCredentials: true })
     }
 
 }
