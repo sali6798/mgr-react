@@ -42,7 +42,7 @@ function InfoList(props) {
 
         const renderEvents = element => {
             return (
-                <ListItem key={element._id ? element._id : count} button component="a" onClick={props.handleEdit}>
+                <ListItem key={element._id ? element._id : count} button component="a" onClick={() => props.handleEdit(element._id)}>
                     <ListItemText
                         primary={element.eventTitle}
                         secondary={`${moment(element.release).format("dddd, LL")}`}

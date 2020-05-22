@@ -51,7 +51,7 @@ function ManageGroup() {
     const [addArtistOpen, setAddArtistOpen] = useState(false);
     const [deleteUser, setDeleteUser] = useState(false);
     const [authorized, setAuthorized] = useState(false);
-    // const [manager, setManager] = useState(false);
+    const [editPost, setEditPost] = useState();
     const classes = useStyles();
 
 
@@ -89,7 +89,10 @@ function ManageGroup() {
 
     };
 
-    const handleEdit = () => {
+    const handleEdit = id => {
+        const result = posts.find(({ _id }) => _id === id);
+        console.log(result)
+        setEditPost(result);
         setOpen(true);
     }
 
@@ -100,6 +103,7 @@ function ManageGroup() {
         else {
             setOpen(false);
         }
+        setEditPost(null);
     };
 
     const handleArtistOpen = () => {
@@ -110,8 +114,11 @@ function ManageGroup() {
         setDeleteUser(!deleteUser);
     }
 
-    const loadPosts = post => {
-        setPosts(posts.concat(post))
+    const loadPosts = async (post) => {
+        // setPosts(posts.concat(post))
+        const { data: groupData } = await API.getSingleGroup(id);
+        setGroup(groupData);
+        setPosts(groupData.posts)
     }
 
     function renderGroupInfo() {
@@ -185,7 +192,7 @@ function ManageGroup() {
                 >
                     <Fade in={open}>
                         <div className={classes.modalPaper}>
-                            <PostForm handleClose={handleClose} loadPosts={loadPosts} groupId={id} />
+                            <PostForm handleClose={handleClose} loadPosts={loadPosts} groupId={id} editPost={editPost} artists={artists} />
                         </div>
                     </Fade>
                 </Modal>

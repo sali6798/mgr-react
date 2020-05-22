@@ -363,7 +363,7 @@ function Dashboard() {
         );
     }
 
-    return <div>{loggedIn ? renderDashboard() : <NotAuthorized />}</div>
+    return <div className="Dashboard">{loggedIn ? renderDashboard() : <NotAuthorized />}</div>
 }
 
 export default Dashboard;

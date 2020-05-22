@@ -113,12 +113,15 @@ export default function PreviewBtn(props) {
                             </Grid>
 
                             <GridList className={classes.gridList} cellHeight={160} cols={3}>
-                                {props.imageLinks.map((tile, index) => (
-                                    <GridListTile key={index}>
-                                        <img src={tile} alt="image post" />
+                                {props.imageLinks
+                                    ? props.imageLinks.map((tile, index) => (
+                                        <GridListTile key={index}>
+                                            <img src={tile} alt="image post" />
 
-                                    </GridListTile>
-                                ))}
+                                        </GridListTile>
+                                    ))
+                                    : ""
+                                }
                             </GridList>
 
                             <Grid item>
