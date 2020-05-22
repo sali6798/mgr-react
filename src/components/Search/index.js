@@ -6,10 +6,8 @@ import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: 500,
-        '& > * + *': {
-            marginTop: theme.spacing(3),
-        },
+        width: 300,
+        marginTop: theme.spacing(3),       
     },
 }));
 
@@ -44,6 +42,7 @@ function Search(props) {
     }
 
     return (
+        
         <div className={classes.root}>
             <Autocomplete
                 multiple
@@ -61,10 +60,12 @@ function Search(props) {
                     />
                 )}
             />
+            <br/>
             <Button variant="contained" color="primary" onClick={handleSubmit}>
                 Add Artists
             </Button>
         </div>
+       
     );
 }
 

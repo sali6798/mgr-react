@@ -4,6 +4,7 @@ import "./style.css"
 import { makeStyles } from '@material-ui/core/styles';
 import { Tabs, Tab, AppBar } from "@material-ui/core"
 import API from "../../utils/API"
+import MGR from "./MGR.png"
 // import Paper from '@material-ui/core/Paper';
 // import Tabs from '@material-ui/core/Tabs';
 // import LinkTab from '@material-ui/core/Tab';
@@ -73,7 +74,7 @@ function Navbar() {
         // console.log(location.pathname)
         if (location.pathname === "/logout") {
             API.logout()
-                .then(() => { 
+                .then(() => {
                     setManager(undefined);
                     history.push("/");
                 }).then(setValue(0))
@@ -82,22 +83,23 @@ function Navbar() {
 
         if (location.pathname === "/dashboard") {
             API.readSessions()
-            .then(({ data }) => {
-                console.log(data)
-                setManager(data.isManager)
-                setValue(0)
-                console.log(data.isManager)
-            })
-            .catch(err => console.log(err))
+                .then(({ data }) => {
+                    console.log(data)
+                    setManager(data.isManager)
+                    setValue(0)
+                    console.log(data.isManager)
+                })
+                .catch(err => console.log(err))
         }
-        else { 
+        else {
             API.readSessions()
-            .then(({ data }) => {
-            setManager(data.isManager)
-            setValue(value)
+                .then(({ data }) => {
+                    setManager(data.isManager)
+                    setValue(value)
+                }
+                    // console.log(data.isManager)
+                )
         }
-            // console.log(data.isManager)
-            )}
         // if (location.pathname === "/manage/:id") {
         //     API.readSessions()
         //     .then(({ data }) => {
@@ -163,7 +165,7 @@ function Navbar() {
         return (
             <div className={classes.root}>
                 <AppBar position="static">
-                    <h1 className={classes.title}>MGR</h1>
+                    <img className="logo" src={MGR} alt="MGR Logo" />
                     <Tabs
                         variant="fullWidth"
                         value={value}
@@ -187,7 +189,7 @@ function Navbar() {
         return (
             <div className={classes.root}>
                 <AppBar position="static">
-                    <h1 className={classes.title}>MGR</h1>
+                    <img className="logo" src={MGR} alt="MGR Logo" />
                     <Tabs
                         variant="fullWidth"
                         value={value}
@@ -210,7 +212,7 @@ function Navbar() {
         return (
             <div className={classes.root}>
                 <AppBar position="static">
-                    <h1 className={classes.title}>MGR</h1>
+                    <img className="logo" src={MGR} alt="MGR Logo" />
                     <Tabs
                         variant="fullWidth"
                         value={value}

@@ -276,7 +276,7 @@ function Dashboard() {
     const renderDashboard = () => {
         return (
             <Grid container className='demo-app' spacing={2} justify="center">
-                <Grid item sm={3}>
+                <Grid item md={3}>
                     <Paper className={classes.paper} elevation={3}>
                         <h1>Today's Schedule</h1>
                         <hr />
@@ -286,7 +286,7 @@ function Dashboard() {
                     </Paper>
 
                 </Grid>
-                <Grid item sm={9}>
+                <Grid item md={9}>
                     <Paper className={classes.paper} elevation={3}>
                         <FullCalendar
                             defaultView="dayGridMonth"
