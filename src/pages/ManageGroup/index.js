@@ -65,6 +65,7 @@ function ManageGroup() {
                     setAuthorized(true);
                     setGroup(groupData);
                     setPosts(groupData.posts)
+                    console.log(user.isManager)
 
                     loadArtists();
                 }

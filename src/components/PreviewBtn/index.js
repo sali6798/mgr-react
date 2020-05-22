@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Modal, Backdrop, Fade, Grid, TextField, GridList, GridListTile } from "@material-ui/core"
 import FacebookButton from "../FacebookButton";
 import TwitterButton from "../TwitterButton";
+import API from "../../utils/API"
 
 const useStyles = makeStyles((theme) => ({
     typography: {
@@ -36,30 +37,39 @@ export default function PreviewBtn(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [postBody, setPostBody] = useState(props.body)
+    const [fanPage, setFanPage] = useState([]);
 
     const handleInputChange = event => {
         setPostBody(event.target.value);
     }
 
-    // function twitter() {
-    //     // post to twitter
-    //     console.log("TW")
-    // }
+    useEffect( async () => {
+        const {data} = await API.getPagesinfo()
+        console.log(data)
+        setFanPage(data)        
+    }, [])
 
-    // function facebook() {
-    //     // post to facebook
-    //     console.log("FB")
-    //     // API.fbPhotoPost(pgId, imgUrl,text, pgToken)
-    //     //     .then(() => {
-    //     //         console.log("Posted");
-    //     //     })
-    // }
+    function twitter() {
+        // post to twitter
+        console.log("TW")
+        console.log(postBody.body);
+        API.twPostText(postBody)
+        .then((res) => {
+            console.log(res);
+            console.log("tweet success")
+        })
+    }
 
-    // const postHandle = (mediaType) => {
-    //     if (mediaType === "Facebook") {
-    //         facebook();
-    //     } else twitter();
-    // }
+    async function facebook() {
+        // post to facebook
+        console.log("FB")
+        API.fbPostText(fanPage[0].id, fanPage[0].access_token, postBody)
+        .then((res) => {
+            console.log(res);
+            console.log("fb posted");
+        })
+
+    }
 
     const handleOpen = () => {
         setOpen(!open);
@@ -117,10 +127,10 @@ export default function PreviewBtn(props) {
                                 />
                             </Grid>
                             <Grid item>
-                                <FacebookButton text="Post" />
+                                <FacebookButton text="Post" handleClick={facebook}/>
                             </Grid>
                             <Grid item>
-                                <TwitterButton text="Post" />
+                                <TwitterButton text="Post" handleClick={twitter}/>
                             </Grid>
                         </Grid>
                     </div>

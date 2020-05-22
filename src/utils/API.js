@@ -1,14 +1,13 @@
 import axios from "axios";
-import { FunctionsRounded } from "@material-ui/icons";
 
 const BASE_URL = "http://localhost:8080"
 // const BASE_URL = "https://mgrserver.herokuapp.com"
 
 export default {
-    login: function(userData) {
+    login: function (userData) {
         return axios.post(BASE_URL + "/auth/login", userData, { withCredentials: true })
     },
-    logout: function() {
+    logout: function () {
         return axios.get(BASE_URL + "/auth/logout", { withCredentials: true })
     },
     signup: function (user) {
@@ -53,6 +52,42 @@ export default {
     },
     updatePost: function (id, post) {
         return axios.put(BASE_URL + "/api/post/" + id, post, { withCredentials: true })
+    },
+
+    //facebook
+    getPagesinfo: function () {
+        return axios.get(BASE_URL + "/post/facebook/pagesinfo", { withCredentials: true })
+    },
+
+    fbPostText: function (pgId, pgToken, text) {
+        const data = {
+            pageId: pgId,
+            pageToken: pgToken,
+            text: text
+        }
+        return axios.post(BASE_URL + "/post/facebook", data, { withCredentials: true })
+    },
+
+    fbPostTextImg: function (pgId, pgToken, text, pic) {
+        const data = {
+            pageId: pgId,
+            pageToken: pgToken,
+            text: text,
+            img: pic
+        }
+        return axios.post(BASE_URL + "/post/facebook/image/single", data, { withCredentials: true })
+    },
+
+    //twitter
+    twPostText: function (text) {
+        const data = {
+            text: text
+        }
+        return axios.post(BASE_URL + "/post/twitter/tweet", data, { withCredentials: true })
+    },
+
+    twPostImg: function () {
+
     }
 
 }

@@ -12,7 +12,8 @@ import API from "../../utils/API"
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        background: '#ffffff',
+        backgroundColor: "#861657 !important",
+        backgroundImage: "linear-gradient(326deg, #861657 0%, #ffa69e 74%) !important",
     },
     title: {
         textAlign: 'center',
@@ -77,7 +78,7 @@ function Navbar() {
                 .then(() => { 
                     setManager(undefined);
                     history.push("/");
-                })
+                }).then(setValue(0))
                 .catch(err => console.log(err))
         }
 
@@ -86,10 +87,28 @@ function Navbar() {
             .then(({ data }) => {
                 console.log(data)
                 setManager(data.isManager)
+                setValue(0)
                 console.log(data.isManager)
             })
             .catch(err => console.log(err))
         }
+        else { 
+            API.readSessions()
+            .then(({ data }) => {
+            setManager(data.isManager)
+            setValue(value)
+        }
+            // console.log(data.isManager)
+            )}
+        // if (location.pathname === "/manage/:id") {
+        //     API.readSessions()
+        //     .then(({ data }) => {
+        //         console.log(data)
+        //         setManager(data.isManager)
+        //         console.log(data.isManager)
+        //     })
+        //     .catch(err => console.log(err))
+        // }
     }, [location])
 
     const handleChange = (event, newValue) => {
