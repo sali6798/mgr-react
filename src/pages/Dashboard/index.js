@@ -405,7 +405,7 @@ function Dashboard() {
                         aria-describedby="transition-modal-description"
                         className={classes.modal}
                         open={descOpen}
-                        onClose={handleClose("desc")}
+                        onClose={() => handleClose("desc")}
                         closeAfterTransition
                         BackdropComponent={Backdrop}
                         BackdropProps={{
