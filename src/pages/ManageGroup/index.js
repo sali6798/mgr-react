@@ -40,6 +40,14 @@ const useStyles = makeStyles((theme) => ({
     margin: {
         margin: theme.spacing(1),
     },
+    title: {
+        textAlign: "center",
+        fontFamily: "Orbitron",
+        fontWeight: 700,
+    },
+    post: {
+        width: "100%",
+    }
 }));
 
 function ManageGroup() {
@@ -125,32 +133,37 @@ function ManageGroup() {
 
         return (
             <div>
-                <h3>{group.name}</h3>
+                <h1 className={classes.title}>{group.name}</h1>
                 <Grid className={classes.grid} container justify="space-evenly" spacing={2}>
                     <Grid item sm={4} md={3}>
-                        <Paper className={classes.paper} elevation={3}>
-                            <h1>Artists</h1>
-                            <hr />
-                            {artists ? <InfoList array={artists} delete={deleteUser} listType="artist" groupId={id} loadArtists={loadArtists} /> : ""}
-                            <br />
-                            <div>
-                                <Button className={classes.margin} label="artist" onClick={handleArtistOpen} variant="contained" color="primary">
-                                    Add Artist
+                        <Grid container direction="column" spacing={2}>
+                            <Grid item>
+                                <Button className={classes.post} onClick={handleOpen} variant="contained" color="primary">
+                                    Create Post +
+                                </Button>
+
+                            </Grid>
+                            <Grid item>
+                                <Paper className={classes.paper} elevation={3}>
+                                    <h1>Artists</h1>
+                                    <hr />
+                                    {artists ? <InfoList array={artists} delete={deleteUser} listType="artist" groupId={id} loadArtists={loadArtists} /> : ""}
+                                    <br />
+                                    <div>
+                                        <Button className={classes.margin} label="artist" onClick={handleArtistOpen} variant="contained" color="primary">
+                                            Add Artist
                             </Button>
-                                {artists.length > 0
-                                    ? <Button className={classes.margin} variant="contained" onClick={handleClick} color="primary">{deleteUser ? "Done" : "Remove Artist"}</Button>
-                                    : ""
-                                }
-                            </div>
-                        </Paper>
+                                        {artists.length > 0
+                                            ? <Button className={classes.margin} variant="contained" onClick={handleClick} color="primary">{deleteUser ? "Done" : "Remove Artist"}</Button>
+                                            : ""
+                                        }
+                                    </div>
+                                </Paper>
+                            </Grid>
+                        </Grid>
                     </Grid>
                     <Grid item sm={8} md={9}>
                         <Grid container direction="column" spacing={2}>
-                            <Grid item>
-                                <Button className={classes.margin} onClick={handleOpen} variant="contained" color="primary">
-                                    Create Post +
-                                </Button>
-                            </Grid>
                             <Grid item>
                                 <Paper className={classes.paper} elevation={3}>
                                     <h1>Today's Schedule</h1>
