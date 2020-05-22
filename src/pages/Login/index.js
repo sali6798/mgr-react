@@ -74,9 +74,8 @@ function Login() {
     }
 
     return (
-        <Grid className={classes.grid} container spacing={1}>
-            <Grid item xs={3} />
-            <Grid item xs={6}>
+        <Grid className={`${classes.grid} Login`} container spacing={1} justify="center">
+            <Grid item sm={6}>
                 <Paper className={classes.paper} elevation={3} maxwidth="sm">
                     <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmitLogin}>
                         <h3>Login</h3>
@@ -121,7 +120,6 @@ function Login() {
                     </form>
                 </Paper>
             </Grid>
-            <Grid item xs={3} />
         </Grid>
 
     )
