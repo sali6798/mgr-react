@@ -76,4 +76,4 @@ The app can be used through the deployed client site below, but if you want to c
 - Shaidee Alingcastre ([Github](https://github.com/sali6798/), [LinkedIn](https://www.linkedin.com/in/shaidee-alingcastre/))
 - Brett Belka ([Github](https://github.com/bbelka/), [LinkedIn](https://www.linkedin.com/in/brettbelka/))
 - JJ Cardenas ([Github](https://github.com/cardeens), [LinkedIn](https://www.linkedin.com/in/jordanjcardenas/))
-- Kridsanapong Daihentob ([Github](https://github.com/commiewalker), [LinkedIn](https://www.linkedin.com/in/kridsanapong-daihentob-9341ba152/)
+- Kridsanapong Daihentob ([Github](https://github.com/commiewalker), [LinkedIn](https://www.linkedin.com/in/kridsanapong-daihentob-9341ba152/))
