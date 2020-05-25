@@ -8,6 +8,7 @@
 - [Usage](#usage)
 - [Installation](#installation)
 - [Credits](#credits)
+- [Future developments](#future-developments)
 - [Deployed Site](#deployed-site)
 - [Developers](#developers)
 
@@ -67,6 +68,13 @@ The app can be used through the deployed client site below, but if you want to c
 - [React Facebook Login](https://www.npmjs.com/package/react-facebook-login)
 - Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from www.flaticon.com
 - Favicons created from https://favicon.io/
+
+## Future Developments
+- Add sample pack hosting
+- Send links to artists for signup that'll link them to a group automatically, so manager doesn't have to wait for artists to create an account before adding them to a group
+- Search for users only within your company, currently searches whole database
+- Create more seamless social media posting direct from application
+- Get necessary approvals from Twitter and Facebook 
 
 ## Deployed Site
 - Client Side: https://mgr-talent.herokuapp.com/
