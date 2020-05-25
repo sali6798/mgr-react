@@ -7,6 +7,7 @@
 - [User Story](#user-story)
 - [Usage](#usage)
 - [Installation](#installation)
+- [Credits](#credits)
 - [Deployed Site](#deployed-site)
 - [Developers](#developers)
 
