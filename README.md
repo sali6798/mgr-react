@@ -8,7 +8,7 @@
 - [Usage](#usage)
 - [Installation](#installation)
 - [Credits](#credits)
-- [Future developments](#future-developments)
+- [Future Developments](#future-developments)
 - [Deployed Site](#deployed-site)
 - [Developers](#developers)
 
