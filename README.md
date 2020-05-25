@@ -63,6 +63,7 @@ The app can be used through the deployed client site below, but if you want to c
 - [Material-UI](https://material-ui.com/)
 - [FullCalendar](https://fullcalendar.io/)
 - [Moment.js](https://momentjs.com/)
+- [Axios](https://www.npmjs.com/package/axios)
 - [React Facebook Login](https://www.npmjs.com/package/react-facebook-login)
 - Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from www.flaticon.com
 - Favicons created from https://favicon.io/
