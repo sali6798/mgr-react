@@ -1,4 +1,70 @@
 h1, .Dashboard h2 {
     font-family: Orbitron;
     font-weight: 500;
+<<<<<<< HEAD
+=======
+}
+
+.Dashboard h3 {
+    text-align: center;
+}
+
+.Dashboard .demo-app {
+    margin-top: 10px;
+}
+
+.Dashboard .fc {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.Dashboard .fc-button-primary, .Dashboard .fc-button-primary:disabled {
+    background-color: #a03466 !important;
+    border-color: #852b55 !important;
+}
+
+.Dashboard .fc-button:hover, 
+.Dashboard .fc-button-active,
+.Dashboard .fc-button-group > .fc-button:focus, 
+.Dashboard .fc-button-primary:not(:disabled):active {
+    background-color: #8b2d59 !important;
+    border-color: #a03466 !important;
+    box-shadow: 0 0 0 0.2rem rgba(139, 45, 89, 0.5);
+}
+
+.Dashboard .fc-view-container {
+    margin-top: 20px;
+}
+
+.Dashboard .MuiFormControl-root {
+    width: 75%;
+}
+
+.Dashboard .MuiGrid-root .title .MuiGrid-item {
+    width: 100% !important;
+}
+/* .Dashboard .title .MuiFormControl-root,
+.Dashboard .description,
+.Dashboard .description .MuiFormControl-root {
+    width: 100% !important;
+} */
+
+@media screen and (max-width: 915px) {
+    .Dashboard .fc-toolbar {
+        display: block;
+    }
+
+    .Dashboard .fc-left, .Dashboard .fc-center, .Dashboard .fc-right {
+        margin: 10px 0;
+    }
+
+    .Dashboard .fc {
+        text-align: center
+    }
+}
+
+@media screen and (max-width: 324px) {
+    .Dashboard .fc-addEventButton-button {
+        margin-top: 10px;
+    }
+>>>>>>> c48091d4efc6ce3235d725dfba32cd0b97e5c55f
 }
