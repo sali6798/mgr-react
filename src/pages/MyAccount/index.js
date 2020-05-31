@@ -121,13 +121,13 @@ function MyAccount() {
     }
 
     const handleFBlogin = () => {
-        // window.location.href = "http://localhost:8080/auth/facebook"
-        window.location.href = "https://mgrserver.herokuapp.com/auth/facebook"
+        window.location.href = "http://localhost:8080/auth/facebook"
+        // window.location.href = "https://mgrserver.herokuapp.com/auth/facebook"
     }
 
     const handleTWlogin = () => {
-        window.location.href = "https://mgrserver.herokuapp.com/auth/twitter"
-        // window.location.href = "http://localhost:8080/auth/twitter"
+        // window.location.href = "https://mgrserver.herokuapp.com/auth/twitter"
+        window.location.href = "http://localhost:8080/auth/twitter"
     }
 
     return (
