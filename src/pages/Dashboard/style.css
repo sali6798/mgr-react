@@ -1,8 +1,6 @@
 h1, .Dashboard h2 {
     font-family: Orbitron;
     font-weight: 500;
-<<<<<<< HEAD
-=======
 }
 
 .Dashboard h3 {
@@ -66,5 +64,4 @@ h1, .Dashboard h2 {
     .Dashboard .fc-addEventButton-button {
         margin-top: 10px;
     }
->>>>>>> c48091d4efc6ce3235d725dfba32cd0b97e5c55f
 }

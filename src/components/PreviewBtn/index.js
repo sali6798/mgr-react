@@ -44,16 +44,36 @@ export default function PreviewBtn(props) {
     }
 
 
-    function twitter() {
+    // function twitter() {
+    //     // post to twitter
+    //     console.log("TW")
+    //     console.log(postBody);
+    //     API.twPostImg(postBody)
+    //         .then((res) => {
+    //             console.log(res);
+    //             console.log("tweet success")
+    //         })
+
+    // }
+    async function twitter() {
         // post to twitter
         console.log("TW")
-        console.log(postBody.body);
-        API.twPostImg(postBody)
-            .then((res) => {
-                console.log(res);
-                console.log("tweet success")
-            })
-        
+        console.log(props.imageLinks)
+        if (props.imageLinks.length > 0) {
+
+            API.twPostText(postBody, props.imageLinks)
+                .then((res) => {
+                    console.log(res);
+                    console.log("tw posted");
+                })
+        } else {
+            API.twPostImg(postBody)
+                .then((res) => {
+                    console.log(res);
+                    console.log("tw posted");
+                })
+        }
+
     }
 
     async function facebook() {
