@@ -61,13 +61,13 @@ export default function PreviewBtn(props) {
         console.log(props.imageLinks)
         if (props.imageLinks.length > 0) {
 
-            API.twPostText(postBody, props.imageLinks)
+            API.twPostImg(postBody, props.imageLinks)
                 .then((res) => {
                     console.log(res);
                     console.log("tw posted");
                 })
         } else {
-            API.twPostImg(postBody)
+            API.twPostText(postBody)
                 .then((res) => {
                     console.log(res);
                     console.log("tw posted");
