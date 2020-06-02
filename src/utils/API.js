@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const BASE_URL = "http://localhost:8080"
-const BASE_URL = "https://mgrserver.herokuapp.com"
+const BASE_URL = "http://localhost:8080"
+// const BASE_URL = "https://mgrserver.herokuapp.com"
 
 export default {
     login: function (userData) {
@@ -54,7 +54,7 @@ export default {
         return axios.put(BASE_URL + "/api/post/" + id, post, { withCredentials: true })
     },
 
-    updateUser: function(id,data) {
+    updateUser: function (id, data) {
         return axios.put(BASE_URL + `/api/user/${id}`, data, { withCredentials: true })
     },
 
@@ -83,18 +83,19 @@ export default {
     },
 
     //twitter
+    twPostImg: function (text, pic) {
+        const data = {
+            text: text,
+            urls: pic
+        }
+        return axios.post(BASE_URL + "/post/twitter/media", data, { withCredentials: true })
+    },
+
     twPostText: function (text) {
         const data = {
             text: text
         }
         return axios.post(BASE_URL + "/post/twitter/tweet", data, { withCredentials: true })
-    },
-
-    twPostImg: function (text) {
-        const data = {
-            text: text
-        }
-        return axios.post(BASE_URL + "/post/twitter/media", data,{ withCredentials: true })
     }
 
 }
