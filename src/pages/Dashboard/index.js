@@ -25,8 +25,7 @@ import {
     Paper,
     List,
     ListItem,
-    ListItemText,
-    Tooltip
+    ListItemText
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import DateTimePicker from "../../components/DateTimePicker";
@@ -101,11 +100,14 @@ function Dashboard() {
 
                         renderEvents(data.groups)
                     }
+
                     const { data } = await API.getPagesinfo()
+
                     console.log(data)
-                    if (data.name != "Error") {
+                    if (data.name !== "Error") {
                         setFanPage(data)
                     }
+
                     setMyEvents(user.myEvents)
                 }
                 else {
@@ -119,12 +121,6 @@ function Dashboard() {
 
         init();
     }, [])
-
-    // useEffect(async () => {
-    //     const { data } = await API.getPagesinfo()
-    //     console.log(data)
-    //     setFanPage(data)
-    // }, [])
 
     function renderEvents(groups) {
         if (groups.length > 0) {

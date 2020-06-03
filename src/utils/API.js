@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080"
-// const BASE_URL = "https://mgrserver.herokuapp.com"
+// const BASE_URL = "http://localhost:8080"
+const BASE_URL = "https://mgrserver.herokuapp.com"
 
 export default {
     login: function (userData) {
@@ -54,8 +54,8 @@ export default {
         return axios.put(BASE_URL + "/api/post/" + id, post, { withCredentials: true })
     },
 
-    updateUser: function (id, data) {
-        return axios.put(BASE_URL + `/api/user/${id}`, data, { withCredentials: true })
+    updateUser: function (data) {
+        return axios.put(BASE_URL + "/api/user/", data, { withCredentials: true })
     },
 
     //facebook
