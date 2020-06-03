@@ -77,9 +77,9 @@ export default {
             pageId: pgId,
             pageToken: pgToken,
             text: text,
-            img: pic
+            urls: pic
         }
-        return axios.post(BASE_URL + "/post/facebook/image/single", data, { withCredentials: true })
+        return axios.post(BASE_URL + "/post/facebook/image", data, { withCredentials: true })
     },
 
     //twitter
