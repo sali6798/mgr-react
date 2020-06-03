@@ -106,7 +106,6 @@ function Dashboard() {
                     console.log(data)
                     if (data.name !== "Error") {
                         setFanPage(data)
-
                     }
 
                     setMyEvents(user.myEvents)
