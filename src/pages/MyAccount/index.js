@@ -44,7 +44,6 @@ function MyAccount() {
         email: "",
         password: "",
         confirmPassword: "",
-        isManager: false,
         showPassword: false,
         facebookPages: []
     })
@@ -63,7 +62,6 @@ function MyAccount() {
                     email: data.email,
                     password: data.password,
                     confirmPassword: data.password,
-                    isManager: data.isManager,
                     showPassword: false
                 })
             })
@@ -100,20 +98,18 @@ function MyAccount() {
 
     const handleSubmit = event => {
         event.preventDefault();
-        // const newUser = {
-        //     name: `${values.firstName} ${values.lastName}`,
-        //     email: values.email,
-        //     password: values.password,
-        //     isManager: values.isManager
-        // }
 
-        // API.signup(newUser)
-        //     .then(({ email, password }) => API.login({ username: email, password: password }))
-        //     .then(({ data }) => {
-        //         console.log(data)
 
-        //         // history.push("/dashboard")
-        //     })
+        const updatedUser = {
+            name: values.firstName && values.lastName ? `${values.firstName.trim()} ${values.lastName.trim()}` : "",
+            password: values.password ? values.password.trim() : ""
+        }
+
+        console.log(updatedUser)
+
+        API.updateUser(updatedUser)
+            // .then(({ data }) => console.log(data))
+            .catch(err => console.log(err))
 
         // API.updateUser({ facebookPages: user })
         //     .catch(err => console.log(err))
@@ -142,13 +138,15 @@ function MyAccount() {
                                 label="First Name"
                                 value={values.firstName}
                                 onChange={handleChange('firstName')}
-                                variant="outlined" />
+                                variant="outlined"
+                            />
                             <TextField
                                 required
                                 label="Last Name"
                                 value={values.lastName}
                                 onChange={handleChange('lastName')}
-                                variant="outlined" />
+                                variant="outlined"
+                            />
                         </div>
                         <div>
                             <TextField
@@ -248,7 +246,7 @@ function MyAccount() {
                         <div>
                             <Button className={classes.margin} variant="contained" color="primary" type="submit">
                                 Save Changes
-                        </Button>
+                            </Button>
                         </div>
                     </form>
                 </Paper>
