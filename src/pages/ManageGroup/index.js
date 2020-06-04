@@ -9,6 +9,7 @@ import PostForm from "../../components/PostForm"
 // import FormModal from "../../components/FormModal"
 import Search from "../../components/Search"
 import NotAuthorized from "../../pages/NotAuthorized"
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -169,7 +170,7 @@ function ManageGroup() {
                                     <h1>Today's Schedule</h1>
                                     <hr />
                                     {/* {group.posts ? <InfoList status="ready" array={group.posts.filter(post => post.status === "ready")} /> : <h3>Nothing Scheduled Today</h3>} */}
-                                    {posts ? <InfoList status="ready" array={posts.filter(post => post.status === "ready")} handleEdit={handleEdit} /> : <h3>Nothing Scheduled Today</h3>}
+                                    {posts ? <InfoList status="ready" array={posts.filter(post => post.status === "ready" && moment().isSame(post.release, 'day'))} handleEdit={handleEdit} /> : <h3>Nothing Scheduled Today</h3>}
                                 </Paper>
                             </Grid>
                             <Grid item>
