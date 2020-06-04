@@ -176,7 +176,7 @@ function Navbar() {
                         {/* {displayTabs()} */}
                         <Tab className="tab" label="Dashboard" component={Link} to="/dashboard" />
                         <Tab className="tab" label="Groups" component={Link} to="/groups" />
-                        <Tab className="tab" label="My Account" component={Link} to="/myaccount" />
+                        <Tab className="tab" label="Account" component={Link} to="/myaccount" />
                         <Tab className="tab" label="Logout" component={Link} to="/logout" />
                     </Tabs>
                 </AppBar>
