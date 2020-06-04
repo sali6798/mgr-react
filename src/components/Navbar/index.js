@@ -199,7 +199,7 @@ function Navbar() {
                     >
                         {/* {displayTabs()} */}
                         <Tab className="tab" label="Dashboard" component={Link} to="/dashboard" />
-                        <Tab className="tab" label="My Account" component={Link} to="/myaccount" />
+                        <Tab className="tab" label="Account" component={Link} to="/myaccount" />
                         <Tab className="tab" label="Logout" component={Link} to="/logout" />
                     </Tabs>
                 </AppBar>
@@ -222,7 +222,7 @@ function Navbar() {
                     >
                         {/* {displayTabs()} */}
                         <Tab className="tab" label="Home" component={Link} to="/" />
-                        <Tab className="tab" label="Create Account" component={Link} to="/createaccount" />
+                        <Tab className="tab" label="Sign Up" component={Link} to="/createaccount" />
                         <Tab className="tab" label="Login" component={Link} to="/login" />
                     </Tabs>
                 </AppBar>
